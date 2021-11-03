@@ -23,12 +23,22 @@ class Profile:
         # Create parent, frame
         self._parent = parent
         self.frame = tk.Frame(self._parent)
+        
+        # list of books borrowed
+        self._duelist = tk.Listbox(self.frame, height=15, width=50, bg="white")
 
+        # REMINDER param of name is user's name
+        self._name = tk.Label(self.frame, width=30, text="default text", bg="white")
+        self._dlabel =  tk.Label(self.frame, height=1, width=50, text="Borrowed Books", bg="green")
         self.pos_widgets()
 
     def pos_widgets(self):
         # postition all widgets in frame
-        return
+        
+        self._name.grid(row=0, column=1)
+        self._duelist.grid(row=2, column=1)
+        self._dlabel.grid(row=1, column=1)
+        
 
 class Search:
     def __init__(self, parent):
