@@ -1,6 +1,7 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
-
+import book
+import user
 class MainTK:
     # this class is for the tkinter stuff altogether
     def __init__(self):
@@ -93,19 +94,12 @@ class Search:
 
     def search_engine(self):
         print("suck my dick")
+    
+    def search_list(self):
+        return
+
+    def borrow(self):
+        return
 
 app = MainTK()
 app.root.mainloop()
-
-
-
-
-
-
-
-
-
-
-
-
-
