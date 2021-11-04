@@ -93,7 +93,7 @@ class Search:
         self._blank4.grid(row=4, column=7)
 
     def search_engine(self):
-        print("suck my dick")
+        print("Searching... ")
     
     def search_list(self):
         return
