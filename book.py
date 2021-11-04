@@ -2,6 +2,10 @@ class Book:
 
     def __init__(self, bookid, genre, name, author):
         # need to increment bookids automatically when creating books
+        self._bookid = bookid
+        self._genre = genre
+        self._name = name
+        self._author = author
 
     def __str__(self):
         return '%s %s' % (self._bookid, self._genre, self._name, self._author)

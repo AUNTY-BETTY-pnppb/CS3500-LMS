@@ -3,6 +3,9 @@ class User:
     def __init__(self, username, email, password):
         #will need a check to shelf to see if an existing user
         #or email exists when creating a new user
+        self._username = username
+        self._email = email
+        self._password = password
 
     def __str__(self):
         return '%s %s' % (self._username, self._email)
@@ -16,7 +19,7 @@ class User:
 
     def _set_email(self, email):
         #check shelf again for existing
-        if type(name) != str:
+        if type(email) != str:
             print("Invalid email")
         else:
             self._email = email
