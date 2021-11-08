@@ -40,7 +40,7 @@ class Profile:
         # REMINDER param of name is user's name
         self._name = tk.Label(self.frame, width=30, text="default text")
         self._borrowedLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
-        self._reservededLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
+        self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
 
         # blanks are whitespaces for better readability
         self._blank = tk.Label(self.frame, height=1, width=5)
@@ -54,7 +54,7 @@ class Profile:
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1)
 
-        self._reservededLabel.grid(row=1, column=3)
+        self._reservedLabel.grid(row=1, column=3)
         self._reserveList.grid(row=2, column=3, sticky='n')
 
         self._blank.grid(row=2, column=2)
@@ -114,7 +114,7 @@ class Borrow:
         self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
         
         self._borrowLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
-        self._reservededLabel =  tk.Label(self.frame, height=1, width=30, text="Reserving")
+        self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserving")
         
         self._borrowList = tk.Listbox(self.frame, height=15, width=40)
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
@@ -134,7 +134,7 @@ class Borrow:
         self._borrowLabel.grid(row=1, column=1)
         self._borrowList.grid(row=2, column=1, rowspan=5)
 
-        self._reservededLabel.grid(row=1, column=3)
+        self._reservedLabel.grid(row=1, column=3)
         self._reserveList.grid(row=2, column=3, columnspan=3, sticky='n')
 
         self._blank.grid(row=2, column=2)
