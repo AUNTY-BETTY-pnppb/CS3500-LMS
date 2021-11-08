@@ -1,0 +1,9 @@
+Classes mixed case and first letter capitalized:
+    class ImageSprite:
+
+Methods mixed case and no capitalized 1st letter:
+    def runFast():
+
+Variables mixed case if it's more that one word:
+    book = "..."
+    bookAuthor = "Dave"

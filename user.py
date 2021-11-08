@@ -10,33 +10,33 @@ class User:
     def __str__(self):
         return '%s %s' % (self._username, self._email)
 
-    def _set_username(self, username):
+    def _setUsername(self, username):
         #check shelf again for existing
         if type(username) != str:
             print("Invalid username")
         else:
             self._username = username
 
-    def _set_email(self, email):
+    def _setEmail(self, email):
         #check shelf again for existing
         if type(email) != str:
             print("Invalid email")
         else:
             self._email = email
 
-    def _set_password(self, password):
+    def _setPassword(self, password):
         # some check if we want to have a password eg. 8chars long etc...
         if type(password) != str:
             print("invalid password")
         else:
             self._password = password
 
-    def _get_username(self):
+    def _getUsername(self):
         return self._username
 
-    def _get_email(self):
+    def _getEmail(self):
         return self._email
 
-    def _get_password(self):
+    def _getPassword(self):
         #not sure if we ever want to return the password but i put it in
         return self._password

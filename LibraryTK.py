@@ -31,29 +31,29 @@ class Profile:
         self.frame = tk.Frame(self._parent)
         
         # list of books borrowed
-        self._duelist = tk.Listbox(self.frame, height=15, width=40)
-        self._reservelist = tk.Listbox(self.frame, height=7, width=40)
+        self._dueList = tk.Listbox(self.frame, height=15, width=40)
+        self._reserveList = tk.Listbox(self.frame, height=7, width=40)
 
         # These are labels and titles for profile
         # REMINDER param of name is user's name
         self._name = tk.Label(self.frame, width=30, text="default text")
-        self._dlabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
-        self._rlabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
+        self._borrowedLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
+        self._reservededLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
 
         # blanks are whitespaces for better readability
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
-        self.pos_widgets()
+        self.positionWidgets()
 
-    def pos_widgets(self):
+    def positionWidgets(self):
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
 
-        self._dlabel.grid(row=1, column=1)
-        self._duelist.grid(row=2, column=1)
+        self._borrowedLabel.grid(row=1, column=1)
+        self._dueList.grid(row=2, column=1)
 
-        self._rlabel.grid(row=1, column=3)
-        self._reservelist.grid(row=2, column=3, sticky='n')
+        self._reservededLabel.grid(row=1, column=3)
+        self._reserveList.grid(row=2, column=3, sticky='n')
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=2, column=0)
@@ -66,10 +66,10 @@ class Search:
 
         # the search buttton
         self._search = tk.Entry(self.frame, width=40)
-        self._sbtn = tk.Button(self.frame, text="Search", command=self.search_engine)
+        self._searchButton = tk.Button(self.frame, text="Search", command=self.searchEngine)
 
         # listboxes for input and entries
-        self._searchlist = tk.Listbox(self.frame, height=15, width=70)
+        self._searchList = tk.Listbox(self.frame, height=15, width=70)
 
         # Blanks again
         self._blank = tk.Label(self.frame, height=1, width=5)
@@ -79,14 +79,14 @@ class Search:
         self._blank4 = tk.Label(self.frame, height=1, width=5)
         
 
-        self.pos_widgets()
+        self.positionWidgets()
 
-    def pos_widgets(self):
+    def positionWidgets(self):
         # postition all widgets in frame
         self._search.grid(row=1, column=1, columnspan=4)
-        self._sbtn.grid(row=1, column=5, sticky='nw')
+        self._searchButton.grid(row=1, column=5, sticky='nw')
 
-        self._searchlist.grid(row=3, column=1, columnspan=6)
+        self._searchList.grid(row=3, column=1, columnspan=6)
 
         self._blank.grid(row=1, column=0)
         self._blank1.grid(row=2, column=0)
@@ -94,11 +94,12 @@ class Search:
         self._blank3.grid(row=3, column=7)
         self._blank4.grid(row=4, column=7)
 
-    def search_engine(self):
+    def searchEngine(self):
         userInput = self._search.get() # Getting the search data
         print(userInput)
+
     
-    def search_list(self):
+    def searchList(self):
         return
 
 class Borrow:
@@ -107,32 +108,32 @@ class Borrow:
         self._parent = parent
         self.frame = tk.Frame(self._parent)
 
-        self._brbtn = tk.Button(self.frame, text="Borrow/Reserve", command=self.borrow)
-        self._resetbtn = tk.Button(self.frame, text="Reset", command=self.reset)
+        self._borrowReserveButton = tk.Button(self.frame, text="Borrow/Reserve", command=self.borrow)
+        self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
         
-        self._blabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
-        self._rlabel =  tk.Label(self.frame, height=1, width=30, text="Reserving")
+        self._borrowLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
+        self._reservededLabel =  tk.Label(self.frame, height=1, width=30, text="Reserving")
         
-        self._borrowlist = tk.Listbox(self.frame, height=15, width=40)
-        self._reslist = tk.Listbox(self.frame, height=7, width=40)
+        self._borrowList = tk.Listbox(self.frame, height=15, width=40)
+        self._reserveList = tk.Listbox(self.frame, height=7, width=40)
 
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
         self._blank2 = tk.Label(self.frame, height=1, width=5)
         self._blank3 = tk.Label(self.frame, height=1, width=5)
 
-        self.pos_widgets()
+        self.positionWidgets()
 
-    def pos_widgets(self):
+    def positionWidgets(self):
         # postition all widgets in frame
-        self._brbtn.grid(row=3, column=3, sticky='nw')
-        self._resetbtn.grid(row=3, column=3, sticky='n')
+        self._borrowReserveButton.grid(row=3, column=3, sticky='nw')
+        self._resetButton.grid(row=3, column=3, sticky='n')
 
-        self._blabel.grid(row=1, column=1)
-        self._borrowlist.grid(row=2, column=1, rowspan=5)
+        self._borrowLabel.grid(row=1, column=1)
+        self._borrowList.grid(row=2, column=1, rowspan=5)
 
-        self._rlabel.grid(row=1, column=3)
-        self._reslist.grid(row=2, column=3, columnspan=3, sticky='n')
+        self._reservededLabel.grid(row=1, column=3)
+        self._reserveList.grid(row=2, column=3, columnspan=3, sticky='n')
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=0, column=2)
@@ -148,11 +149,11 @@ class Borrow:
         return
 
 class Bookshelf:
-    
+
     def __init__(self):
         self.name = "Bookshelf"
 
-    def get_keys(self):
+    def getKeys(self):
         st = shelve.open(self.name)
         return st.keys()
     
@@ -160,21 +161,21 @@ class Bookshelf:
         st = shelve.open(self.name)
         st.close()
 
-    def access_playlist(self, name):
+    def search(self, key):
         st = shelve.open(self.name)
-        temp = st[name]
+        value = st[key]
         st.close()
-        return temp
+        return value
 
-    def save_playlist(self, name, value):
+    def insert(self, key, value):
         # value is a list, playlist
         st = shelve.open(self.name, writeback=True)
-        st[name] = value
+        st[key] = value
         st.close()
     
-    def delete_playlist(self):
+    def delete(self):
         st = shelve.open(self.name)
-        for key in self.get_keys():
+        for key in self.getKeys():
             del st[key]
         st.close()
 
