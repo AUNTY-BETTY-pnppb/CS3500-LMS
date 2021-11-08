@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
+import shelve
 import book
 import user
 
@@ -145,6 +146,37 @@ class Borrow:
     def reset(self):
         # reset the book lists to nothing
         return
+
+class Bookshelf:
+    
+    def __init__(self):
+        self.name = "Bookshelf"
+
+    def get_keys(self):
+        st = shelve.open(self.name)
+        return st.keys()
+    
+    def close(self):
+        st = shelve.open(self.name)
+        st.close()
+
+    def access_playlist(self, name):
+        st = shelve.open(self.name)
+        temp = st[name]
+        st.close()
+        return temp
+
+    def save_playlist(self, name, value):
+        # value is a list, playlist
+        st = shelve.open(self.name, writeback=True)
+        st[name] = value
+        st.close()
+    
+    def delete_playlist(self):
+        st = shelve.open(self.name)
+        for key in self.get_keys():
+            del st[key]
+        st.close()
 
 app = MainTK()
 app.root.mainloop()
