@@ -169,9 +169,9 @@ class Donate:
         self._blank2 = tk.Label(self.frame, height=1, width=5)
         self._blank3 = tk.Label(self.frame, height=1, width=5)
 
-        self.pos_widgets()
+        self.positionWidgets()
 
-    def pos_widgets(self):
+    def positionWidgets(self):
         # postition all widgets in frame
         self._donateButton.grid(row=7, column=1, sticky='sw')
         self._resetButton.grid(row=7, column=1, sticky='se')
