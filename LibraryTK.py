@@ -94,7 +94,8 @@ class Search:
         self._blank4.grid(row=4, column=7)
 
     def search_engine(self):
-        print("Searching... ")
+        userInput = self._search.get() # Getting the search data
+        print(userInput)
     
     def search_list(self):
         return
