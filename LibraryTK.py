@@ -156,6 +156,42 @@ class Donate:
         self._parent = parent
         self.frame = tk.Frame(self._parent)
 
+        self._donateButton = tk.Button(self.frame, text="Donate", command=self.donate)
+        self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
+
+        self._donateList = tk.Listbox(self.frame, height=10, width=40)
+
+        self._donateLabel = tk.Label(self.frame, height=1, width=30, text="Donating")
+
+
+        self._blank = tk.Label(self.frame, height=1, width=5)
+        self._blank1 = tk.Label(self.frame, height=1, width=5)
+        self._blank2 = tk.Label(self.frame, height=1, width=5)
+        self._blank3 = tk.Label(self.frame, height=1, width=5)
+
+        self.pos_widgets()
+
+    def pos_widgets(self):
+        # postition all widgets in frame
+        self._donateButton.grid(row=7, column=1, sticky='sw')
+        self._resetButton.grid(row=7, column=1, sticky='se')
+
+        self._donateLabel.grid(row=1, column=1)
+        self._donateList.grid(row=2, column=1, rowspan=5)
+
+        self._blank.grid(row=2, column=2)
+        self._blank1.grid(row=0, column=2)
+        self._blank2.grid(row=0, column=0)
+        self._blank3.grid(row=0, column=6)
+
+    def donate(self):
+        # put your donate here
+        return
+
+    def reset(self):
+        # reset the book lists to nothing
+        return
+
 class Bookshelf:
 
     def __init__(self):
