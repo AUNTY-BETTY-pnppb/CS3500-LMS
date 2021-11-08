@@ -15,6 +15,7 @@ class MainTK:
         self.profile = Profile(self._tab_bar)
         self.search = Search(self._tab_bar)
         self.borrow = Borrow(self._tab_bar)
+        self.donate = Donate(self._tab_bar)
         self.tabControl()
 
     # adding the tabs
@@ -22,6 +23,7 @@ class MainTK:
         self._tab_bar.add(self.profile.frame, text='Profile')
         self._tab_bar.add(self.search.frame, text='Search')
         self._tab_bar.add(self.borrow.frame, text='Borrow')
+        self._tab_bar.add(self.donate.frame, text='Donate')
         self._tab_bar.grid(column=0, row=0)
 
 class Profile:
@@ -147,6 +149,12 @@ class Borrow:
     def reset(self):
         # reset the book lists to nothing
         return
+
+class Donate:
+    def __init__(self, parent):
+        # Create parent, frame
+        self._parent = parent
+        self.frame = tk.Frame(self._parent)
 
 class Bookshelf:
 
