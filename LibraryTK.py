@@ -195,7 +195,12 @@ class Donate:
 class Bookshelf:
 
     def __init__(self):
-        self.name = "Bookshelf"
+        # all the lists of shelves
+        self.booklist = "booklist"
+        self.memberslist = "memberslist"
+        self.duelist = "duelist"
+        self.borrowlist = "borrowlist"
+        self.reservelist = "reservelist"
 
     def getKeys(self):
         st = shelve.open(self.name)
