@@ -24,3 +24,6 @@ class Book:
 
     def _getAuthor(self):
         return self._author
+
+    def isAvailable(self):
+        return self._availability
