@@ -31,7 +31,7 @@ class Profile:
         # Create parent, frame
         self._parent = parent
         self.frame = tk.Frame(self._parent)
-        
+
         # list of books borrowed
         self._dueList = tk.Listbox(self.frame, height=15, width=40)
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
@@ -79,7 +79,7 @@ class Search:
         self._blank2 = tk.Label(self.frame, height=1, width=5)
         self._blank3 = tk.Label(self.frame, height=1, width=5)
         self._blank4 = tk.Label(self.frame, height=1, width=5)
-        
+
 
         self.positionWidgets()
 
@@ -100,7 +100,7 @@ class Search:
         userInput = self._search.get() # Getting the search data
         print(userInput)
 
-    
+
     def searchList(self):
         return
 
@@ -112,10 +112,10 @@ class Borrow:
 
         self._borrowReserveButton = tk.Button(self.frame, text="Borrow/Reserve", command=self.borrow)
         self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
-        
+
         self._borrowLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
         self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserving")
-        
+
         self._borrowList = tk.Listbox(self.frame, height=15, width=40)
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
 
@@ -141,11 +141,11 @@ class Borrow:
         self._blank1.grid(row=0, column=2)
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
-    
+
     def borrow(self):
         # put your borrow and reserve here
         return
-    
+
     def reset(self):
         # reset the book lists to nothing
         return
@@ -159,10 +159,13 @@ class Donate:
         self._donateButton = tk.Button(self.frame, text="Donate", command=self.donate)
         self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
 
-        self._donateList = tk.Listbox(self.frame, height=10, width=40)
+        self._titleBox = tk.Listbox(self.frame, height=1, width=40)
+        self._authorBox = tk.Listbox(self.frame, height=1, width=40)
+        self._genreSelectDropDown = tk.Listbox(self.frame, height=1, width=40)
 
-        self._donateLabel = tk.Label(self.frame, height=1, width=30, text="Donating")
-
+        self._titleLabel = tk.Label(self.frame, height=1, width=30, text="Title")
+        self._authorLabel = tk.Label(self.frame, height=1, width=30, text="Author")
+        self._genreLabel = tk.Label(self.frame, height=1, width=30, text="Genre")
 
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
@@ -173,14 +176,18 @@ class Donate:
 
     def positionWidgets(self):
         # postition all widgets in frame
-        self._donateButton.grid(row=7, column=1, sticky='sw')
-        self._resetButton.grid(row=7, column=1, sticky='se')
+        self._donateButton.grid(row=12, column=1, sticky='sw')
+        self._resetButton.grid(row=12, column=1, sticky='se')
 
-        self._donateLabel.grid(row=1, column=1)
-        self._donateList.grid(row=2, column=1, rowspan=5)
+        self._titleLabel.grid(row=1, column=1)
+        self._titleBox.grid(row=2, column=1)
+        self._authorLabel.grid(row=4, column=1)
+        self._authorBox.grid(row=5, column=1)
+        self._genreLabel.grid(row=7, column=1)
+        self._genreSelectDropDown.grid(row=8, column=1)
 
-        self._blank.grid(row=2, column=2)
-        self._blank1.grid(row=0, column=2)
+        self._blank.grid(row=0, column=1)
+        self._blank1.grid(row=0, column=1)
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
@@ -202,9 +209,15 @@ class Bookshelf:
     def getKeys(self, shelf):
         st = shelve.open(shelf)
         return st.keys()
+<<<<<<< Updated upstream
     
     def close(self, shelf):
         st = shelve.open(shelf)
+=======
+
+    def close(self):
+        st = shelve.open(self.name)
+>>>>>>> Stashed changes
         st.close()
 
     def search(self, shelf, key):
@@ -218,9 +231,15 @@ class Bookshelf:
         st = shelve.open(shelf, writeback=True)
         st[key] = value
         st.close()
+<<<<<<< Updated upstream
     
     def delete(self, shelf):
         st = shelve.open(shelf)
+=======
+
+    def delete(self):
+        st = shelve.open(self.name)
+>>>>>>> Stashed changes
         for key in self.getKeys():
             del st[key]
         st.close()
