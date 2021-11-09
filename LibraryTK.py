@@ -3,6 +3,7 @@ from tkinter import PhotoImage, ttk
 import shelve
 import book
 import user
+import re
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -159,13 +160,13 @@ class Donate:
         self._donateButton = tk.Button(self.frame, text="Donate", command=self.donate)
         self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
 
-        self._titleBox = tk.Listbox(self.frame, height=1, width=40)
-        self._authorBox = tk.Listbox(self.frame, height=1, width=40)
-        self._genreSelectDropDown = tk.Listbox(self.frame, height=1, width=40)
+        self._titleBox = tk.Entry(self.frame, width=40)
+        self._authorBox = tk.Entry(self.frame, width=40)
+        self._genreSelectDropDown = tk.Entry(self.frame, width=40)
 
-        self._titleLabel = tk.Label(self.frame, height=1, width=30, text="Title")
-        self._authorLabel = tk.Label(self.frame, height=1, width=30, text="Author")
-        self._genreLabel = tk.Label(self.frame, height=1, width=30, text="Genre")
+        self._titleLabel = tk.Label(self.frame, height=1, width=10, text="Title:")
+        self._authorLabel = tk.Label(self.frame, height=1, width=10, text="Author:")
+        self._genreLabel = tk.Label(self.frame, height=1, width=10, text="Genre:")
 
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
@@ -175,16 +176,16 @@ class Donate:
         self.positionWidgets()
 
     def positionWidgets(self):
-        # postition all widgets in frame
-        self._donateButton.grid(row=12, column=1, sticky='sw')
-        self._resetButton.grid(row=12, column=1, sticky='se')
+        # position all widgets in frame
+        self._donateButton.grid(row=6, column=2, sticky='e')
+        self._resetButton.grid(row=7, column=2, sticky='e')
 
-        self._titleLabel.grid(row=1, column=1)
-        self._titleBox.grid(row=2, column=1)
-        self._authorLabel.grid(row=4, column=1)
-        self._authorBox.grid(row=5, column=1)
-        self._genreLabel.grid(row=7, column=1)
-        self._genreSelectDropDown.grid(row=8, column=1)
+        self._titleLabel.grid(row=1, column=1, sticky='w')
+        self._titleBox.grid(row=1, column=2, sticky='w')
+        self._authorLabel.grid(row=3, column=1, sticky='w')
+        self._authorBox.grid(row=3, column=2, sticky='w')
+        self._genreLabel.grid(row=5, column=1, sticky='w')
+        self._genreSelectDropDown.grid(row=5, column=2, sticky='w')
 
         self._blank.grid(row=0, column=1)
         self._blank1.grid(row=0, column=1)
@@ -193,11 +194,18 @@ class Donate:
 
     def donate(self):
         # put your donate here
+        title = self._titleBox.get()
+        author = self._authorBox.get()
+        genre = self._genreSelectDropDown.get()
+        print(title, author, genre)
+        self.reset()
         return
 
     def reset(self):
         # reset the book lists to nothing
+        self._titleBox.strip()
         return
+
 
 class Bookshelf:
 
@@ -209,15 +217,9 @@ class Bookshelf:
     def getKeys(self, shelf):
         st = shelve.open(shelf)
         return st.keys()
-<<<<<<< Updated upstream
-    
-    def close(self, shelf):
-        st = shelve.open(shelf)
-=======
 
     def close(self):
         st = shelve.open(self.name)
->>>>>>> Stashed changes
         st.close()
 
     def search(self, shelf, key):
@@ -231,15 +233,9 @@ class Bookshelf:
         st = shelve.open(shelf, writeback=True)
         st[key] = value
         st.close()
-<<<<<<< Updated upstream
-    
-    def delete(self, shelf):
-        st = shelve.open(shelf)
-=======
 
     def delete(self):
         st = shelve.open(self.name)
->>>>>>> Stashed changes
         for key in self.getKeys():
             del st[key]
         st.close()
