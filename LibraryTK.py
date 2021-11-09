@@ -156,8 +156,8 @@ class Donate:
     def __init__(self, parent):
         # Create parent, frame
 
-        global var
-        var = tk.IntVar()
+        
+        self._var = tk.IntVar()
 
         self._parent = parent
         self.frame = tk.Frame(self._parent)
@@ -167,12 +167,12 @@ class Donate:
 
         self._titleBox = tk.Entry(self.frame, width=40)
         self._authorBox = tk.Entry(self.frame, width=40)
-        self._genreAction = tk.Radiobutton(self.frame, text="Action", variable=var, value=1)
-        self._genreRomance = tk.Radiobutton(self.frame, text="Romance", variable=var, value=2)
-        self._genreFantasy = tk.Radiobutton(self.frame, text="Fantasy", variable=var, value=3)
-        self._genreSciFi = tk.Radiobutton(self.frame, text="SciFi", variable=var, value=4)
-        self._genreDrama = tk.Radiobutton(self.frame, text="Drama", variable=var, value=5)
-        self._genreHorror = tk.Radiobutton(self.frame, text="Horror", variable=var, value=6)
+        self._genreAction = tk.Radiobutton(self.frame, text="Action", variable=self._var, value=1)
+        self._genreRomance = tk.Radiobutton(self.frame, text="Romance", variable=self._var, value=2)
+        self._genreFantasy = tk.Radiobutton(self.frame, text="Fantasy", variable=self._var, value=3)
+        self._genreSciFi = tk.Radiobutton(self.frame, text="SciFi", variable=self._var, value=4)
+        self._genreDrama = tk.Radiobutton(self.frame, text="Drama", variable=self._var, value=5)
+        self._genreHorror = tk.Radiobutton(self.frame, text="Horror", variable=self._var, value=6)
 
         self._titleLabel = tk.Label(self.frame, height=1, width=10, text="Title:")
         self._authorLabel = tk.Label(self.frame, height=1, width=10, text="Author:")
@@ -213,7 +213,7 @@ class Donate:
     def donate(self):
         # put your donate here
         genreDictionary = {1: "Action", 2: "Romance", 3: "Fantasy", 4: "SciFi", 5: "Drama", 6: "Horror"}
-        print(self._titleBox.get(), self._authorBox.get(), genreDictionary[var.get()])
+        print(self._titleBox.get(), self._authorBox.get(), genreDictionary[self._var.get()])
         self.reset()
         return
 
