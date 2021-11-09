@@ -199,31 +199,36 @@ class Bookshelf:
         self.booklist = "booklist"
         self.memberslist = "memberslist"
 
-    def getKeys(self):
-        st = shelve.open(self.name)
+    def getKeys(self, shelf):
+        st = shelve.open(shelf)
         return st.keys()
     
-    def close(self):
-        st = shelve.open(self.name)
+    def close(self, shelf):
+        st = shelve.open(shelf)
         st.close()
 
-    def search(self, key):
-        st = shelve.open(self.name)
+    def search(self, shelf, key):
+        st = shelve.open(shelf)
         value = st[key]
         st.close()
         return value
 
-    def insert(self, key, value):
+    def insert(self, shelf, key, value):
         # value is a list, playlist
-        st = shelve.open(self.name, writeback=True)
+        st = shelve.open(shelf, writeback=True)
         st[key] = value
         st.close()
     
-    def delete(self):
-        st = shelve.open(self.name)
+    def delete(self, shelf):
+        st = shelve.open(shelf)
         for key in self.getKeys():
             del st[key]
         st.close()
 
+bookshelf = Bookshelf()
+ch = ["Chris", "1234", "chris@gmail.com"]
+bookshelf.insert(bookshelf.memberslist, ch[0], ch)
+shelf = bookshelf.getKeys(bookshelf.memberslist)
+print(bookshelf.search(bookshelf.memberslist, "Chris"))
 app = MainTK()
 app.root.mainloop()
