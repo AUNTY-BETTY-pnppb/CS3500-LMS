@@ -6,6 +6,8 @@ class User:
         self._username = username
         self._email = email
         self._password = password
+        self.borrowlist = []
+        self.reservelist = []
 
     def __str__(self):
         return '%s %s' % (self._username, self._email)
