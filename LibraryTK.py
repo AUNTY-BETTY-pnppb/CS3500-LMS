@@ -151,9 +151,14 @@ class Borrow:
         # reset the book lists to nothing
         return
 
+
 class Donate:
     def __init__(self, parent):
         # Create parent, frame
+
+        global var
+        var = tk.IntVar()
+
         self._parent = parent
         self.frame = tk.Frame(self._parent)
 
@@ -162,7 +167,12 @@ class Donate:
 
         self._titleBox = tk.Entry(self.frame, width=40)
         self._authorBox = tk.Entry(self.frame, width=40)
-        self._genreSelectDropDown = tk.Entry(self.frame, width=40)
+        self._genreAction = tk.Radiobutton(self.frame, text="Action", variable=var, value=1)
+        self._genreRomance = tk.Radiobutton(self.frame, text="Romance", variable=var, value=2)
+        self._genreFantasy = tk.Radiobutton(self.frame, text="Fantasy", variable=var, value=3)
+        self._genreSciFi = tk.Radiobutton(self.frame, text="SciFi", variable=var, value=4)
+        self._genreDrama = tk.Radiobutton(self.frame, text="Drama", variable=var, value=5)
+        self._genreHorror = tk.Radiobutton(self.frame, text="Horror", variable=var, value=6)
 
         self._titleLabel = tk.Label(self.frame, height=1, width=10, text="Title:")
         self._authorLabel = tk.Label(self.frame, height=1, width=10, text="Author:")
@@ -175,17 +185,25 @@ class Donate:
 
         self.positionWidgets()
 
+
     def positionWidgets(self):
         # position all widgets in frame
-        self._donateButton.grid(row=6, column=2, sticky='e')
-        self._resetButton.grid(row=7, column=2, sticky='e')
+        self._donateButton.grid(row=2, column=4, sticky='w', padx=10)
+        self._resetButton.grid(row=1, column=4, sticky='w', padx=10)
 
         self._titleLabel.grid(row=1, column=1, sticky='w')
-        self._titleBox.grid(row=1, column=2, sticky='w')
-        self._authorLabel.grid(row=3, column=1, sticky='w')
-        self._authorBox.grid(row=3, column=2, sticky='w')
-        self._genreLabel.grid(row=5, column=1, sticky='w')
-        self._genreSelectDropDown.grid(row=5, column=2, sticky='w')
+        self._titleBox.grid(row=1, column=2, columnspan=2, sticky='w')
+
+        self._authorLabel.grid(row=2, column=1, sticky='w')
+        self._authorBox.grid(row=2, column=2, columnspan=2, sticky='w')
+
+        self._genreLabel.grid(row=3, column=1, sticky='w')
+        self._genreAction.grid(row=3, column=2, sticky='w')
+        self._genreRomance.grid(row=4, column=2, sticky='w')
+        self._genreFantasy.grid(row=5, column=2, sticky='w')
+        self._genreSciFi.grid(row=3, column=3, sticky='w')
+        self._genreDrama.grid(row=4, column=3, sticky='w')
+        self._genreHorror.grid(row=5, column=3, sticky='w')
 
         self._blank.grid(row=0, column=1)
         self._blank1.grid(row=0, column=1)
@@ -194,16 +212,15 @@ class Donate:
 
     def donate(self):
         # put your donate here
-        title = self._titleBox.get()
-        author = self._authorBox.get()
-        genre = self._genreSelectDropDown.get()
-        print(title, author, genre)
+        genreDictionary = {1: "Action", 2: "Romance", 3: "Fantasy", 4: "SciFi", 5: "Drama", 6: "Horror"}
+        print(self._titleBox.get(), self._authorBox.get(), genreDictionary[var.get()])
         self.reset()
         return
 
     def reset(self):
         # reset the book lists to nothing
-        self._titleBox.strip()
+        self._titleBox.delete(first=0, last=10000)
+        self._authorBox.delete(first=0, last=10000)
         return
 
 
@@ -218,8 +235,8 @@ class Bookshelf:
         st = shelve.open(shelf)
         return st.keys()
 
-    def close(self):
-        st = shelve.open(self.name)
+    def close(self, shelf):
+        st = shelve.open(shelf)
         st.close()
 
     def search(self, shelf, key):
