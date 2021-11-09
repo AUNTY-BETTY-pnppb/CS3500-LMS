@@ -6,6 +6,7 @@ class Book:
         self._genre = genre
         self._name = name
         self._author = author
+        self._availability = True
 
     def __str__(self):
         return '%s %s' % (self._bookid, self._genre, self._name, self._author)
@@ -35,6 +36,7 @@ class Book:
             print("invalid author")
         else:
             self._author = author
+
 
     def _getBookId(self):
         return self._bookid

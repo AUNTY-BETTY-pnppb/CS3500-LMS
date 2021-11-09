@@ -249,5 +249,7 @@ ch = ["Chris", "1234", "chris@gmail.com"]
 bookshelf.insert(bookshelf.memberslist, ch[0], ch)
 shelf = bookshelf.getKeys(bookshelf.memberslist)
 print(bookshelf.search(bookshelf.memberslist, "Chris"))
+# remember to close the shelves afterwards
+bookshelf.close(bookshelf.memberslist)
 app = MainTK()
 app.root.mainloop()
