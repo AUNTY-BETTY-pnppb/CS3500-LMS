@@ -1,3 +1,6 @@
+from Book import *
+from datetime import datetime, timedelta
+
 class User:
 
     def __init__(self, username, email, password):
@@ -6,7 +9,7 @@ class User:
         self._username = username
         self._email = email
         self._password = password
-        self.borrowlist = []
+        self.borrowlist = {}
         self.reservelist = []
 
     def __str__(self):
@@ -42,3 +45,13 @@ class User:
     def _getPassword(self):
         #not sure if we ever want to return the password but i put it in
         return self._password
+
+    def borrow(self, book):
+        # Make sure the user is trying to borrow a book
+        if isinstance(Book, book):
+            if book.isAvailable():
+                # Next two lines set the due date to be seven days
+                # after the user borrows the book
+                now = datetime.now()
+                due_date = timedelta(days=+7)
+                self.borrowlist[book] = now + due_date
