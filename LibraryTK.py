@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
-import book
-import user
+import Book
+import User
 import re
 from Bookshelf import *
 
@@ -155,8 +155,6 @@ class Borrow:
 class Donate:
     def __init__(self, parent):
         # Create parent, frame
-
-        
         self._var = tk.IntVar()
 
         self._parent = parent
