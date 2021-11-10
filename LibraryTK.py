@@ -142,9 +142,9 @@ class Search:
             index = int(selected.curselection()[0])
             book = selected.get(index)
             bookObj = self.searchList(book)
-            #Borrow.borrow(bookObj)
+            Borrow.borrow(Borrow, bookObj)
             print(type(bookObj))
-            
+
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
@@ -202,7 +202,7 @@ class Borrow:
             book._setAvailability(False)
             self._borrowList.insert(END,"%s" % book)
         else:
-            self._reservelist.append(book)
+            demo_user.reservelist.append(book)
             self._reserveList.insert(END,"%s" % book)
 
     def reset(self):
