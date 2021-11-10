@@ -1,9 +1,12 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
 import Book
-import User
+from User import *
 import re
 from Bookshelf import *
+
+global demo_user
+demo_user = User('Chris', 'chris@gmail.com', '1234')
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -39,7 +42,7 @@ class Profile:
 
         # These are labels and titles for profile
         # REMINDER param of name is user's name
-        self._name = tk.Label(self.frame, width=30, text="default text")
+        self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername())
         self._borrowedLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
         self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
 
