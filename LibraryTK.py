@@ -144,7 +144,8 @@ class Search:
         if selected.curselection():
             index = int(selected.curselection()[0])
             book = selected.get(index)
-            print(book)
+            book = self.searchList(book)
+            print(type(book))
             Borrow.borrow(book)
 
         # Borrow.borrow()
