@@ -147,8 +147,6 @@ class Search:
             print(bookObj._getAvailability())
             Borrow.borrow(Borrow, bookObj)
 
-   
-
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
