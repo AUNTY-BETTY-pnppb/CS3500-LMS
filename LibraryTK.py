@@ -45,6 +45,8 @@ class Profile:
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
         #Button
         self._refreshButton = tk.Button(self.frame, text="Refresh", command=self.refresh)
+        self._returnButton = tk.Button(self.frame, text="Return Book", command=self.returnBook)
+        self._cancelButton = tk.Button(self.frame, text="Cancel reservation", command=self.cancel)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
         self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername())
@@ -61,7 +63,9 @@ class Profile:
     def positionWidgets(self):
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
-        self._refreshButton.grid(row=1, column=5, sticky='nw')
+        self._refreshButton.grid(row=2, column=2, sticky='s')
+        self._returnButton.grid(row=2, column=3, sticky='s')
+        self._cancelButton.grid(row=3, column=3, sticky='s')
 
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1)
@@ -85,6 +89,12 @@ class Profile:
         self._dueList.delete(0, END)
         self._reserveList.delete(0, END)
         return self.myBooks(), self.myReservedBooks()
+
+    def returnBook(self):
+        pass
+
+    def cancel(self):
+        pass
 
 
 
