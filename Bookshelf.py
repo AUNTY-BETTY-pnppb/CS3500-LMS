@@ -4,8 +4,8 @@ class Bookshelf:
 
     def __init__(self):
         # all the lists of shelves
-        self.booklist = "booklist"
-        self.memberslist = "memberslist"
+        self.bookList = "bookList"
+        self.membersList = "membersList"
 
     def getKeys(self, shelf):
         st = shelve.open(shelf)
