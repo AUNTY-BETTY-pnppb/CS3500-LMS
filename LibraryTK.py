@@ -239,5 +239,9 @@ if __name__ == "__main__":
     # remember to close the shelves afterwards
     bookshelf.close(bookshelf.membersList)
 
+    library = bookshelf.getKeys(bookshelf.bookList)
+    for book in library:
+        print(bookshelf.search(bookshelf.bookList, book))
+
 app = MainTK()
 app.root.mainloop()
