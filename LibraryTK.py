@@ -130,8 +130,6 @@ class Search:
         self._searchList.delete(first=0, last=10000)
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
-            print(item.getName())
-            print(type(item))
             matchName = re.search("%s" % userInput.lower(), item.getName().lower())
             matchAuthor = re.search("%s" % userInput.lower(), item.getAuthor().lower())
             if matchName:
@@ -145,8 +143,20 @@ class Search:
             index = int(selected.curselection()[0])
             book = selected.get(index)
             bookObj = self.searchList(book)
-            print(bookObj._getAvailability())
-            Borrow.borrow(Borrow, bookObj)
+            #Borrow.borrow(bookObj)
+            print(type(bookObj))
+            if bookObj._getAvailability():
+                # Next two lines set the due date to be seven days
+                # after the user borrows the book
+                now = datetime.now()
+                due_on = timedelta(days=+7)
+                due_date = now + due_on
+                demo_user.borrowlist[bookObj] = due_date.strftime("%d %b %Y")
+                bookObj._setAvailability(False)
+                demo_user.borrowList.insert(END,"%s" % book)
+            else:
+                demo_user.reservelist.append(bookObj)
+                demo_user.reserveList.insert(END,"%s" % book)
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
@@ -193,7 +203,7 @@ class Borrow:
         self._blank3.grid(row=0, column=6)
 
     def borrow(self, book):
-        # Make sure the user is trying to borrow a book
+        # Checks for if the book is available
         if book._getAvailability():
             # Next two lines set the due date to be seven days
             # after the user borrows the book
@@ -202,8 +212,10 @@ class Borrow:
             due_date = now + due_on
             demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
             book._setAvailability(False)
+            self._borrowList.insert(END,"%s" % book)
         else:
-            demo_user.reservelist.append(book)
+            self._reservelist.append(book)
+            self._reserveList.insert(END,"%s" % book)
 
     def reset(self):
         # reset the book lists to nothing
