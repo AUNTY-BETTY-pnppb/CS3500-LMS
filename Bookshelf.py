@@ -9,7 +9,9 @@ class Bookshelf:
 
     def getKeys(self, shelf):
         st = shelve.open(shelf)
-        return st.keys()
+        keys = st.keys()
+        st.close()
+        return keys
 
     def close(self, shelf):
         st = shelve.open(shelf)

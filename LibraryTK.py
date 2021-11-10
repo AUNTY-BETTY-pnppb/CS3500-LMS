@@ -159,10 +159,10 @@ class Search:
                 due_on = timedelta(days=+7)
                 due_date = now + due_on
                 demo_user.borrowlist[bookObj] = due_date.strftime("%d %b %Y")
-                bookObj._setAvailability(False)
                 # app is the MainTK where all other tk classes resolve
                 # so to call stuff in other classes must go - app.class._objectButton
                 app.borrow._borrowList.insert(END,"%s" % bookObj)
+                bookObj._setAvailability(False)
             else:
                 demo_user.reservelist.append(bookObj)
                 app.borrow._reserveList.insert(END,"%s" % bookObj)
