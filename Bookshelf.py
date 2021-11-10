@@ -32,3 +32,7 @@ class Bookshelf:
         for key in self.getKeys():
             del st[key]
         st.close()
+
+bookshelf = Bookshelf()
+for book in bookshelf.getKeys(bookshelf.bookList):
+    print(book)
