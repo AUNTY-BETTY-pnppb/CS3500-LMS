@@ -9,6 +9,8 @@ from datetime import datetime, timedelta
 
 global demo_user
 demo_user = User('Chris', 'chris@gmail.com', '1234')
+demo_user.reservelist.append(Book('Genre', 'Name', 'ss'))
+demo_user.borrowlist[Book('Genre', 'Name', 'ss')] = datetime.now().strftime("%d %b %Y")
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -52,6 +54,8 @@ class Profile:
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
         self.positionWidgets()
+        self.myBooks()
+        self.myReservedBooks()
 
     def positionWidgets(self):
         # postition all widgets in frame
@@ -65,6 +69,15 @@ class Profile:
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=2, column=0)
+
+
+    def myBooks(self):
+        for book, date in demo_user.borrowlist.items():
+            self._dueList.insert(END, book, date)
+
+    def myReservedBooks(self):
+        for book in demo_user.reservelist:
+            self._reserveList.insert(END, book)
 
 class Search:
     def __init__(self, parent):
