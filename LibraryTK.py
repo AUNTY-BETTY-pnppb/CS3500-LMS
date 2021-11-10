@@ -96,7 +96,7 @@ class Search:
 
         # listboxes for input and entries
         self._searchList = tk.Listbox(self.frame, height=15, width=70)
-        self._searchList.bind('<Double-1>', Borrow.borrow)
+        self._searchList.bind('<Double-1>', self.borrow)
 
         # Blanks again
         self._blank = tk.Label(self.frame, height=1, width=5)
@@ -135,6 +135,16 @@ class Search:
             if match:
                 self._searchList.insert(END, bookshelf.search(bookshelf.bookList, book))
 
+
+    def borrow(self, event):
+        selected = event.widget
+        if selected.curselection():
+            index = int(selected.curselection()[0])
+            book = selected.get(index)
+            print(book)
+            #Borrow.borrow(book)
+
+        # Borrow.borrow()
 
     def searchList(self):
         return
@@ -177,7 +187,7 @@ class Borrow:
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
-    def borrow(self, event):
+    def borrow(self):
         # Make sure the user is trying to borrow a book
         if book._getAvailability():
             # Next two lines set the due date to be seven days
