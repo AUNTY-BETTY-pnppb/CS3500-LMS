@@ -127,7 +127,6 @@ class Search:
         self._searchList.delete(0, END)
         userInput = self._search.get() # Getting the search data
         print(userInput)
-        self._searchList.delete(first=0, last=10000)
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
             matchName = re.search("%s" % userInput.lower(), item.getName().lower())
