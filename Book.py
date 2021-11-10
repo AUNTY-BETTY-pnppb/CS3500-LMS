@@ -19,10 +19,10 @@ class Book:
     def _getGenre(self):
         return self._genre
 
-    def _getName(self):
+    def getName(self):
         return self._name
 
-    def _getAuthor(self):
+    def getAuthor(self):
         return self._author
 
     def isAvailable(self):

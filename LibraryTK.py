@@ -130,11 +130,13 @@ class Search:
         self._searchList.delete(first=0, last=10000)
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
-            match = re.search(": %s" % userInput.lower(), str(item).lower())
-            print(match)
-            if match:
-                self._searchList.insert(END, bookshelf.search(bookshelf.bookList, book))
-
+            print(item.getName())
+            matchName = re.search("%s" % userInput.lower(), item.getName().lower())
+            matchAuthor = re.search("%s" % userInput.lower(), item.getAuthor().lower())
+            if matchName:
+                self._searchList.insert(END, item)
+            elif matchAuthor:
+                self._searchList.insert(END, item)
 
     def borrow(self, event):
         selected = event.widget
@@ -147,6 +149,7 @@ class Search:
         # Borrow.borrow()
 
     def searchList(self):
+        
         return
 
 class Borrow:
