@@ -43,7 +43,8 @@ class Profile:
         # list of books borrowed
         self._dueList = tk.Listbox(self.frame, height=15, width=40)
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
-
+        #Button
+        self._refreshButton = tk.Button(self.frame, text="Refresh", command=self.refresh)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
         self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername())
@@ -60,6 +61,7 @@ class Profile:
     def positionWidgets(self):
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
+        self._refreshButton.grid(row=1, column=5, sticky='nw')
 
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1)
@@ -78,6 +80,13 @@ class Profile:
     def myReservedBooks(self):
         for book in demo_user.reservelist:
             self._reserveList.insert(END, book)
+
+    def refresh(self):
+        self._dueList.delete(0, END)
+        self._reserveList.delete(0, END)
+        return self.myBooks(), self.myReservedBooks()
+
+
 
 class Search:
     def __init__(self, parent):
