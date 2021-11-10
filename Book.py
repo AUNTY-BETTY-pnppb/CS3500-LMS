@@ -27,3 +27,6 @@ class Book:
 
     def isAvailable(self):
         return self._availability
+
+    def _setAvailability(self, availability):
+        self._availability = availability
