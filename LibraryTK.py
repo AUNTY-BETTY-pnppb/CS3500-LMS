@@ -5,6 +5,7 @@ from Book import *
 from User import *
 import re
 from Bookshelf import *
+from datetime import datetime, timedelta
 
 global demo_user
 demo_user = User('Chris', 'chris@gmail.com', '1234')
@@ -154,9 +155,16 @@ class Borrow:
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
-    def borrow(self):
-        # put your borrow and reserve here
-        return
+    def borrow(self, book):
+        # Make sure the user is trying to borrow a book
+        if book.isAvailable():
+            # Next two lines set the due date to be seven days
+            # after the user borrows the book
+            now = datetime.now()
+            due_date = timedelta(days=+7)
+            demo_user.borrowlist[book] = now + due_date
+            book._setAvailability(False)
+
 
     def reset(self):
         # reset the book lists to nothing
@@ -241,6 +249,10 @@ if __name__ == "__main__":
     print(bookshelf.search(bookshelf.membersList, "Chris"))
     # remember to close the shelves afterwards
     bookshelf.close(bookshelf.membersList)
+
+    library = bookshelf.getKeys(bookshelf.bookList)
+    for book in library:
+        print(bookshelf.search(bookshelf.bookList, book))
 
 app = MainTK()
 app.root.mainloop()
