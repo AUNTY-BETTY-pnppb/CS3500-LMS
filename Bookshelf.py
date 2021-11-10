@@ -27,8 +27,8 @@ class Bookshelf:
         st[key] = value
         st.close()
 
-    def delete(self):
-        st = shelve.open(self.name)
+    def delete(self, shelf):
+        st = shelve.open(shelf)
         for key in self.getKeys():
             del st[key]
         st.close()

@@ -103,11 +103,12 @@ class Search:
         self._blank4.grid(row=4, column=7)
 
     def searchEngine(self):
+        self._searchList.delete(0, END)
         userInput = self._search.get() # Getting the search data
         print(userInput)
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
-            match = re.search("%s" % userInput, str(item))
+            match = re.search(": %s" % userInput.lower(), str(item).lower())
             print(match)
             if match:
                 self._searchList.insert(END, bookshelf.search(bookshelf.bookList, book))
