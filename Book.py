@@ -31,5 +31,8 @@ class Book:
         else:
             return "Unavailable"
 
+    def _getAvailability(self):
+        return self._availability
+
     def _setAvailability(self, availability):
         self._availability = availability
