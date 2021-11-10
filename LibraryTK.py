@@ -142,9 +142,22 @@ class Search:
             index = int(selected.curselection()[0])
             book = selected.get(index)
             bookObj = self.searchList(book)
-            Borrow.borrow(Borrow, bookObj)
+            # Checks for if the book is available
+            if bookObj._getAvailability():
+                # Next two lines set the due date to be seven days
+                # after the user borrows the book
+                now = datetime.now()
+                due_on = timedelta(days=+7)
+                due_date = now + due_on
+                demo_user.borrowlist[bookObj] = due_date.strftime("%d %b %Y")
+                bookObj._setAvailability(False)
+                # app is the MainTK where all other tk classes resolve
+                # so to call stuff in other classes must go - app.class._objectButton
+                app.borrow._borrowList.insert(END,"%s" % bookObj)
+            else:
+                demo_user.reservelist.append(bookObj)
+                app.borrow._reserveList.insert(END,"%s" % bookObj)
             print(type(bookObj))
-
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
@@ -190,20 +203,8 @@ class Borrow:
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
-    def borrow(self, book):
-        # Checks for if the book is available
-        if book._getAvailability():
-            # Next two lines set the due date to be seven days
-            # after the user borrows the book
-            now = datetime.now()
-            due_on = timedelta(days=+7)
-            due_date = now + due_on
-            demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
-            book._setAvailability(False)
-            self._borrowList.insert(END,"%s" % book)
-        else:
-            demo_user.reservelist.append(book)
-            self._reserveList.insert(END,"%s" % book)
+    def borrow(book):
+        pass
 
     def reset(self):
         # reset the book lists to nothing
@@ -283,11 +284,11 @@ class Donate:
 if __name__ == "__main__":
     bookshelf = Bookshelf()
     # remember to close the shelves afterwards
-    bookshelf.close(bookshelf.membersList)
-
-    library = bookshelf.getKeys(bookshelf.bookList)
-    for book in library:
-        print(bookshelf.search(bookshelf.bookList, book))
+    #bookshelf.close(bookshelf.membersList)
+    bookshelf.delete(bookshelf.membersList)
+    #library = bookshelf.getKeys(bookshelf.bookList)
+    #for book in library:
+    #    print(bookshelf.search(bookshelf.bookList, book))
 
 app = MainTK()
 app.root.mainloop()

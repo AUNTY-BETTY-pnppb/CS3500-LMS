@@ -29,7 +29,7 @@ class Bookshelf:
 
     def delete(self, shelf):
         st = shelve.open(shelf)
-        for key in self.getKeys():
+        for key in self.getKeys(shelf):
             del st[key]
         st.close()
 
