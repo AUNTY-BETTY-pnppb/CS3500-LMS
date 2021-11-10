@@ -74,6 +74,11 @@ class Search:
         self._search = tk.Entry(self.frame, width=40)
         self._searchButton = tk.Button(self.frame, text="Search", command=self.searchEngine)
 
+        genreVar = tk.StringVar()
+        genreVar.set("All") # default value
+
+        self._genreMenu = tk.OptionMenu(self.frame, genreVar, "All", "Action", "Romance", "Fantasy", "Sci-fi", "Drama", "Horror")
+
         # listboxes for input and entries
         self._searchList = tk.Listbox(self.frame, height=15, width=70)
 
@@ -91,6 +96,8 @@ class Search:
         # postition all widgets in frame
         self._search.grid(row=1, column=1, columnspan=4)
         self._searchButton.grid(row=1, column=5, sticky='nw')
+
+        self._genreMenu.grid(row=1, column=6, sticky='nw')
 
         self._searchList.grid(row=3, column=1, columnspan=6)
 
