@@ -45,7 +45,7 @@ class Profile:
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
         #Button
         self._refreshButton = tk.Button(self.frame, text="Refresh", command=self.refresh)
-        self._returnButton = tk.Button(self.frame, text="Return Book", command=self.return)
+        self._returnButton = tk.Button(self.frame, text="Return Book", command=self.returnBook)
         self._cancelButton = tk.Button(self.frame, text="Cancel reservation", command=self.cancel)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
