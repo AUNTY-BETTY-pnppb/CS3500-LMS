@@ -152,20 +152,12 @@ class Search:
             book = selected.get(index)
             bookObj = self.searchList(book)
             # Checks for if the book is available
-            if bookObj._getAvailability():
-                # Next two lines set the due date to be seven days
-                # after the user borrows the book
-                now = datetime.now()
-                due_on = timedelta(days=+7)
-                due_date = now + due_on
-                demo_user.borrowlist[bookObj] = due_date.strftime("%d %b %Y")
-                # app is the MainTK where all other tk classes resolve
-                # so to call stuff in other classes must go - app.class._objectButton
+            #app.borrow.borrow(bookObj)
+            if bookObj.isAvailable():
                 app.borrow._borrowList.insert(END,"%s" % bookObj)
-                bookObj._setAvailability(False)
             else:
-                demo_user.reservelist.append(bookObj)
                 app.borrow._reserveList.insert(END,"%s" % bookObj)
+
             print(type(bookObj))
 
     def searchList(self, selected):
@@ -212,8 +204,21 @@ class Borrow:
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
-    def borrow(book):
-        pass
+    def borrow(self):
+        bookToBorrow = self._borrowList.get(self._borrowList.curselection())
+        book = app.search.searchList(bookToBorrow)
+        if book._getAvailability():
+        # Next two lines set the due date to be seven days
+        # after the user borrows the book
+            now = datetime.now()
+            due_on = timedelta(days=+7)
+            due_date = now + due_on
+            demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
+            # app is the MainTK where all other tk classes resolve
+            # so to call stuff in other classes must go - app.class._objectButton
+            book._setAvailability(False)
+        else:
+            demo_user.reservelist.append(bookObj)
 
     def reset(self):
         # reset the book lists to nothing
