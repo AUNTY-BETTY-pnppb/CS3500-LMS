@@ -78,17 +78,18 @@ class Profile:
 
 
     def myBooks(self):
+        self._dueList.delete(0, END)
         for book, date in demo_user.borrowlist.items():
             self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
+        self._reserveList.delete(0, END)
         for book in demo_user.reservelist:
             self._reserveList.insert(END, book)
 
     def refresh(self):
-        self._dueList.delete(0, END)
-        self._reserveList.delete(0, END)
-        return self.myBooks(), self.myReservedBooks()
+        self.myBooks()
+        self.myReservedBooks()
 
     def returnBook(self):
         pass
@@ -182,7 +183,8 @@ class Borrow:
         self._parent = parent
         self.frame = tk.Frame(self._parent)
 
-        self._borrowReserveButton = tk.Button(self.frame, text="Borrow/Reserve", command=self.borrow)
+        self._borrowButton = tk.Button(self.frame, text="Borrow", command=self.borrow)
+        self._reserveButton = tk.Button(self.frame, text="Reserve", command=self.reserve)
         self._resetButton = tk.Button(self.frame, text="Reset", command=self.reset)
 
         self._borrowLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
@@ -200,8 +202,9 @@ class Borrow:
 
     def positionWidgets(self):
         # postition all widgets in frame
-        self._borrowReserveButton.grid(row=3, column=3, sticky='nw')
-        self._resetButton.grid(row=3, column=3, sticky='n')
+        self._borrowButton.grid(row=3, column=3, sticky='nw')
+        self._reserveButton.grid(row=3, column=3, sticky='n')
+        self._resetButton.grid(row=3, column=3, sticky='ne')
 
         self._borrowLabel.grid(row=1, column=1)
         self._borrowList.grid(row=2, column=1, rowspan=5)
@@ -219,25 +222,33 @@ class Borrow:
         book = app.search.searchList(bookToBorrow)
         bookshelf = Bookshelf()
         bookID = book._getBookId()
-        print(bool(book._getAvailability()))
-        if bool(book._getAvailability()):
         # Next two lines set the due date to be seven days
         # after the user borrows the book
-            now = datetime.now()
-            due_on = timedelta(days=+7)
-            due_date = now + due_on
-            demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
-            # app is the MainTK where all other tk classes resolve
-            # so to call stuff in other classes must go - app.class._objectButton
-            book._setAvailability(False)
-            bookshelf.insert(bookshelf.bookList, str(bookID), book)
-        else:
-            demo_user.reservelist.append(book)
+        now = datetime.now()
+        due_on = timedelta(days=+7)
+        due_date = now + due_on
+        demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
+        # app is the MainTK where all other tk classes resolve
+        # so to call stuff in other classes must go - app.class._objectButton
+        book._setAvailability(False)
+        bookshelf.insert(bookshelf.bookList, str(bookID), book)
+        app.profile.myBooks()
+
 
     def reset(self):
         # reset the book lists to nothing
         self._borrowList.delete(0, END)
         self._reserveList.delete(0, END)
+
+    def reserve(self):
+        bookToReserve = self._reserveList.get(self._reserveList.curselection())
+        book = app.search.searchList(bookToReserve)
+        # Next two lines set the due date to be seven days
+        # after the user borrows the book
+        demo_user.reservelist.append(book)
+        # app is the MainTK where all other tk classes resolve
+        # so to call stuff in other classes must go - app.class._objectButton
+        app.profile.myReservedBooks()
 
 
 class Donate:
