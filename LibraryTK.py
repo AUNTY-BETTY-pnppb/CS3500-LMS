@@ -153,7 +153,7 @@ class Search:
             bookObj = self.searchList(book)
             # Checks for if the book is available
             #app.borrow.borrow(bookObj)
-            if bool(bookObj.isAvailable()):
+            if bool(bookObj._getAvailability()):
                 app.borrow._borrowList.insert(END,"%s" % bookObj)
             else:
                 app.borrow._reserveList.insert(END,"%s" % bookObj)
