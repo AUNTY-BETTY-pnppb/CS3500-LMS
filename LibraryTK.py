@@ -63,9 +63,9 @@ class Profile:
     def positionWidgets(self):
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
-        self._refreshButton.grid(row=2, column=2, sticky='s')
-        self._returnButton.grid(row=2, column=3, sticky='s')
-        self._cancelButton.grid(row=3, column=3, sticky='s')
+        self._refreshButton.grid(row=3, column=3, sticky='nw')
+        self._returnButton.grid(row=3, column=3, sticky='n')
+        self._cancelButton.grid(row=3, column=3, sticky='ne')
 
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1)
@@ -92,10 +92,33 @@ class Profile:
         self.myReservedBooks()
 
     def returnBook(self):
-        pass
+        bookToReturn = self._dueList.get(self._dueList.curselection())
+        for book1, date in demo_user.borrowlist.items():
+            # Check for match, book1 is an object hence the str.
+            # Have to add 2 strings because the date was added
+            # to the object that was borrowed
+            if (str(book1) + " " + str(date)) == bookToReturn:
+                print("match")
+                demo_user.borrowlist.pop(book1)
+                break
+        #Update
+        self.myBooks()
 
     def cancel(self):
-        pass
+        #find the highlighted book
+        bookToCancel = self._reserveList.get(self._reserveList.curselection())
+        for book1 in demo_user.reservelist:
+            # Check for match, book1 is an object hence the str
+            if str(book1) == bookToCancel:
+                #print("match")
+                demo_user.reservelist.remove(book1)
+        #Update
+        self.myReservedBooks()
+
+
+
+
+
 
 
 
