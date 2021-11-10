@@ -8,7 +8,7 @@ class Book:
         self._name = name
         self._author = author
         self._availability = True
-        self._bookid = id()
+        self._bookid = id(self)
 
     def __str__(self):
         return '%s %s %s %s' % (self._bookid, self._genre, self._name, self._author)

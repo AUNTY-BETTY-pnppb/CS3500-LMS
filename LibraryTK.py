@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
-import Book
+from Book import *
 from User import *
 import re
 from Bookshelf import *
@@ -215,6 +215,9 @@ class Donate:
         # put your donate here
         genreDictionary = {1: "Action", 2: "Romance", 3: "Fantasy", 4: "SciFi", 5: "Drama", 6: "Horror"}
         print(self._titleBox.get(), self._authorBox.get(), genreDictionary[self._var.get()])
+        donatedBook = Book(genreDictionary[self._var.get()], self._titleBox.get(), self._authorBox.get())
+        bookshelf = Bookshelf()
+        bookshelf.insert(bookshelf.booklist, str(donatedBook._getBookId()), donatedBook)
         self.reset()
         return
 
