@@ -4,8 +4,8 @@ class Bookshelf:
 
     def __init__(self):
         # all the lists of shelves
-        self.booklist = "booklist"
-        self.memberslist = "memberslist"
+        self.bookList = "bookList"
+        self.membersList = "membersList"
 
     def getKeys(self, shelf):
         st = shelve.open(shelf)
@@ -27,12 +27,12 @@ class Bookshelf:
         st[key] = value
         st.close()
 
-    def delete(self):
-        st = shelve.open(self.name)
+    def delete(self, shelf):
+        st = shelve.open(shelf)
         for key in self.getKeys():
             del st[key]
         st.close()
 
 bookshelf = Bookshelf()
-for book in bookshelf.getKeys(bookshelf.booklist):
+for book in bookshelf.getKeys(bookshelf.bookList):
     print(book)

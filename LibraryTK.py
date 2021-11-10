@@ -1,12 +1,16 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
+from tkinter.constants import END
 from Book import *
 from User import *
 import re
 from Bookshelf import *
+from datetime import datetime, timedelta
 
 global demo_user
 demo_user = User('Chris', 'chris@gmail.com', '1234')
+demo_user.reservelist.append(Book('Genre', 'Name', 'ss'))
+demo_user.borrowlist[Book('Genre', 'Name', 'ss')] = datetime.now().strftime("%d %b %Y")
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -50,6 +54,8 @@ class Profile:
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
         self.positionWidgets()
+        self.myBooks()
+        self.myReservedBooks()
 
     def positionWidgets(self):
         # postition all widgets in frame
@@ -63,6 +69,15 @@ class Profile:
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=2, column=0)
+
+
+    def myBooks(self):
+        for book, date in demo_user.borrowlist.items():
+            self._dueList.insert(END,"%s %s" % (book, date))
+
+    def myReservedBooks(self):
+        for book in demo_user.reservelist:
+            self._reserveList.insert(END, book)
 
 class Search:
     def __init__(self, parent):
@@ -81,6 +96,7 @@ class Search:
 
         # listboxes for input and entries
         self._searchList = tk.Listbox(self.frame, height=15, width=70)
+        self._searchList.bind('<Double-1>', Borrow.borrow)
 
         # Blanks again
         self._blank = tk.Label(self.frame, height=1, width=5)
@@ -108,8 +124,16 @@ class Search:
         self._blank4.grid(row=4, column=7)
 
     def searchEngine(self):
+        self._searchList.delete(0, END)
         userInput = self._search.get() # Getting the search data
         print(userInput)
+        self._searchList.delete(first=0, last=10000)
+        for book in bookshelf.getKeys(bookshelf.bookList):
+            item = bookshelf.search(bookshelf.bookList, book)
+            match = re.search(": %s" % userInput.lower(), str(item).lower())
+            print(match)
+            if match:
+                self._searchList.insert(END, bookshelf.search(bookshelf.bookList, book))
 
 
     def searchList(self):
@@ -153,9 +177,18 @@ class Borrow:
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
-    def borrow(self):
-        # put your borrow and reserve here
-        return
+    def borrow(self, event):
+        # Make sure the user is trying to borrow a book
+        if book._getAvailability():
+            # Next two lines set the due date to be seven days
+            # after the user borrows the book
+            now = datetime.now()
+            due_on = timedelta(days=+7)
+            due_date = now + due_on
+            demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
+            book._setAvailability(False)
+        else:
+            demo_user.reservelist.append(book)
 
     def reset(self):
         # reset the book lists to nothing
@@ -224,22 +257,26 @@ class Donate:
         print(self._titleBox.get(), self._authorBox.get(), genreDictionary[self._var.get()])
         donatedBook = Book(genreDictionary[self._var.get()], self._titleBox.get(), self._authorBox.get())
         bookshelf = Bookshelf()
-        bookshelf.insert(bookshelf.booklist, str(donatedBook._getBookId()), donatedBook)
+        bookshelf.insert(bookshelf.bookList, str(donatedBook._getBookId()), donatedBook)
         self.reset()
-        return
 
     def reset(self):
         # reset the book lists to nothing
         self._titleBox.delete(first=0, last=10000)
         self._authorBox.delete(first=0, last=10000)
-        return
 
-bookshelf = Bookshelf()
-ch = ["Chris", "1234", "chris@gmail.com"]
-bookshelf.insert(bookshelf.memberslist, ch[0], ch)
-shelf = bookshelf.getKeys(bookshelf.memberslist)
-print(bookshelf.search(bookshelf.memberslist, "Chris"))
-# remember to close the shelves afterwards
-bookshelf.close(bookshelf.memberslist)
+if __name__ == "__main__":
+    bookshelf = Bookshelf()
+    ch = ["Chris", "1234", "chris@gmail.com"]
+    bookshelf.insert(bookshelf.membersList, ch[0], ch)
+    shelf = bookshelf.getKeys(bookshelf.membersList)
+    print(bookshelf.search(bookshelf.membersList, "Chris"))
+    # remember to close the shelves afterwards
+    bookshelf.close(bookshelf.membersList)
+
+    library = bookshelf.getKeys(bookshelf.bookList)
+    for book in library:
+        print(bookshelf.search(bookshelf.bookList, book))
+
 app = MainTK()
 app.root.mainloop()
