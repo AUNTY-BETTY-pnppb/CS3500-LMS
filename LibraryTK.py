@@ -153,7 +153,7 @@ class Search:
             bookObj = self.searchList(book)
             # Checks for if the book is available
             #app.borrow.borrow(bookObj)
-            if bookObj.isAvailable():
+            if bool(bookObj.isAvailable()):
                 app.borrow._borrowList.insert(END,"%s" % bookObj)
             else:
                 app.borrow._reserveList.insert(END,"%s" % bookObj)
@@ -209,7 +209,8 @@ class Borrow:
         book = app.search.searchList(bookToBorrow)
         bookshelf = Bookshelf()
         bookID = book._getBookId()
-        if book._getAvailability():
+        print(bool(book._getAvailability()))
+        if bool(book._getAvailability()):
         # Next two lines set the due date to be seven days
         # after the user borrows the book
             now = datetime.now()
@@ -221,7 +222,7 @@ class Borrow:
             book._setAvailability(False)
             bookshelf.insert(bookshelf.bookList, str(bookID), book)
         else:
-            demo_user.reservelist.append(bookObj)
+            demo_user.reservelist.append(book)
 
     def reset(self):
         # reset the book lists to nothing
