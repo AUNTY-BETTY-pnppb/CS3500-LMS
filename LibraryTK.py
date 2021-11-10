@@ -79,8 +79,9 @@ class Profile:
 
     def myBooks(self):
         self._dueList.delete(0, END)
+        print(demo_user.borrowlist)
         for book, date in demo_user.borrowlist.items():
-            self._dueList.insert(END,"%s %s" % (book, date))
+            self._dueList.insert(END, book)
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
@@ -92,6 +93,7 @@ class Profile:
         self.myReservedBooks()
 
     def returnBook(self):
+<<<<<<< HEAD
         bookToReturn = self._dueList.get(self._dueList.curselection())
         for book1, date in demo_user.borrowlist.items():
             # Check for match, book1 is an object hence the str.
@@ -103,6 +105,22 @@ class Profile:
                 break
         #Update
         self.myBooks()
+=======
+        print(self._dueList)
+        print(demo_user.borrowlist)
+        bookToReturn = self._dueList.get(self._dueList.curselection())
+        book = app.search.searchList(bookToReturn)
+        bookshelf = Bookshelf()
+        print(book)
+        bookID = book._getBookId()
+        demo_user.borrowlist.pop(book)
+        # app is the MainTK where all other tk classes resolve
+        # so to call stuff in other classes must go - app.class._objectButton
+        book._setAvailability(True)
+        bookshelf.insert(bookshelf.bookList, str(bookID), book)
+        app.profile.myBooks()
+        pass
+>>>>>>> e09f5ba55496aa6796705a4ea4b943c6b600f23b
 
     def cancel(self):
         #find the highlighted book
