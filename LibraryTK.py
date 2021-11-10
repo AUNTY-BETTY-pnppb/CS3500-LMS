@@ -144,16 +144,16 @@ class Search:
         if selected.curselection():
             index = int(selected.curselection()[0])
             book = selected.get(index)
-            book = self.searchList(book)
-            print(type(book))
-            Borrow.borrow(book)
+            bookObj = self.searchList(book)
+            print(bookObj._getAvailability())
+            Borrow.borrow(Borrow, bookObj)
 
-        # Borrow.borrow()
+
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
-            if str(item) == selected:
+            if str(item) == str(selected):
                 return item
 
 class Borrow:
@@ -194,7 +194,7 @@ class Borrow:
         self._blank2.grid(row=0, column=0)
         self._blank3.grid(row=0, column=6)
 
-    def borrow(self):
+    def borrow(self, book):
         # Make sure the user is trying to borrow a book
         if book._getAvailability():
             # Next two lines set the due date to be seven days
