@@ -93,16 +93,16 @@ class Profile:
 
     def returnBook(self):
         bookToReturn = self._dueList.get(self._dueList.curselection())
-        #bookshelf = Bookshelf()
-        #bookID = bookToReturn._getBookId()
+        bookshelf = Bookshelf()
         for book1, date in demo_user.borrowlist.items():
             # Check for match, book1 is an object hence the str.
             # Have to add 2 strings because the date was added
             # to the object that was borrowed
             if (str(book1) + " " + str(date)) == bookToReturn:
-                #print("match")
-                #book._setAvailability(True)
-                #bookshelf.insert(bookshelf.bookList, str(bookID), bookToReturn)
+                print("match")
+                bookID = book1._getBookId()
+                book1._setAvailability(True)
+                bookshelf.insert(bookshelf.bookList, str(bookID), book1)
                 demo_user.borrowlist.pop(book1)
                 break
         #Update
