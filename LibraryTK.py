@@ -144,7 +144,7 @@ class Search:
             bookObj = self.searchList(book)
             #Borrow.borrow(bookObj)
             print(type(bookObj))
-            
+
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
@@ -282,10 +282,6 @@ class Donate:
 
 if __name__ == "__main__":
     bookshelf = Bookshelf()
-    ch = ["Chris", "1234", "chris@gmail.com"]
-    bookshelf.insert(bookshelf.membersList, ch[0], ch)
-    shelf = bookshelf.getKeys(bookshelf.membersList)
-    print(bookshelf.search(bookshelf.membersList, "Chris"))
     # remember to close the shelves afterwards
     bookshelf.close(bookshelf.membersList)
 
