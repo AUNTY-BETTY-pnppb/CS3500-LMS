@@ -92,7 +92,6 @@ class Profile:
         self.myReservedBooks()
 
     def returnBook(self):
-<<<<<<< HEAD
         bookToReturn = self._dueList.get(self._dueList.curselection())
         #bookshelf = Bookshelf()
         #bookID = bookToReturn._getBookId()
@@ -108,9 +107,6 @@ class Profile:
                 break
         #Update
         self.myBooks()
-=======
-        pass
->>>>>>> cd1d3e6fc06acd2fbf73fd851be4f7b1c8f62878
 
     def cancel(self):
         #find the highlighted book
