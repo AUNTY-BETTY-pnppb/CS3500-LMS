@@ -111,7 +111,7 @@ class Search:
             if match:
                 self._searchList.insert(END, bookshelf.search(bookshelf.bookList, book))
                 print(match.string)
-        
+
 
     def searchList(self):
         return
@@ -227,20 +227,20 @@ class Donate:
         bookshelf = Bookshelf()
         bookshelf.insert(bookshelf.bookList, str(donatedBook._getBookId()), donatedBook)
         self.reset()
-        return
 
     def reset(self):
         # reset the book lists to nothing
         self._titleBox.delete(first=0, last=10000)
         self._authorBox.delete(first=0, last=10000)
-        return
 
-bookshelf = Bookshelf()
-ch = ["Chris", "1234", "chris@gmail.com"]
-bookshelf.insert(bookshelf.membersList, ch[0], ch)
-shelf = bookshelf.getKeys(bookshelf.membersList)
-print(bookshelf.search(bookshelf.membersList, "Chris"))
-# remember to close the shelves afterwards
-bookshelf.close(bookshelf.membersList)
+if __name__ == "__main__":
+    bookshelf = Bookshelf()
+    ch = ["Chris", "1234", "chris@gmail.com"]
+    bookshelf.insert(bookshelf.membersList, ch[0], ch)
+    shelf = bookshelf.getKeys(bookshelf.membersList)
+    print(bookshelf.search(bookshelf.membersList, "Chris"))
+    # remember to close the shelves afterwards
+    bookshelf.close(bookshelf.membersList)
+
 app = MainTK()
 app.root.mainloop()
