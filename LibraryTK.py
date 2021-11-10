@@ -131,6 +131,7 @@ class Search:
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
             print(item.getName())
+            print(type(item))
             matchName = re.search("%s" % userInput.lower(), item.getName().lower())
             matchAuthor = re.search("%s" % userInput.lower(), item.getAuthor().lower())
             if matchName:
@@ -144,12 +145,11 @@ class Search:
             index = int(selected.curselection()[0])
             book = selected.get(index)
             print(book)
-            #Borrow.borrow(book)
+            Borrow.borrow(book)
 
         # Borrow.borrow()
 
     def searchList(self):
-        
         return
 
 class Borrow:
