@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import PhotoImage, ttk
+from tkinter.constants import END
 from Book import *
 from User import *
 import re
@@ -102,11 +103,13 @@ class Search:
 
     def searchEngine(self):
         userInput = self._search.get() # Getting the search data
-        index = 0
-        for item in bookshelf.getKeys(bookshelf.bookList):
-            match = re.search("%s" % userInput, item)
+        print(userInput)
+        for book in bookshelf.getKeys(bookshelf.bookList):
+            item = bookshelf.search(bookshelf.bookList, book)
+            match = re.search("%s" % userInput, str(item))
+            print(match)
             if match:
-                self._searchList.insert(index=index, item)
+                self._searchList.insert(END, bookshelf.search(bookshelf.bookList, book))
                 print(match.string)
         
 
@@ -222,7 +225,7 @@ class Donate:
         print(self._titleBox.get(), self._authorBox.get(), genreDictionary[self._var.get()])
         donatedBook = Book(genreDictionary[self._var.get()], self._titleBox.get(), self._authorBox.get())
         bookshelf = Bookshelf()
-        bookshelf.insert(bookshelf.booklist, str(donatedBook._getBookId()), donatedBook)
+        bookshelf.insert(bookshelf.bookList, str(donatedBook._getBookId()), donatedBook)
         self.reset()
         return
 
