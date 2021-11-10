@@ -138,9 +138,11 @@ class Search:
             elif matchAuthor:
                 self._searchList.insert(END, item)
 
-    def searchList(self):
-        
-        return
+    def searchList(self, selected):
+        for book in bookshelf.getKeys(bookshelf.bookList):
+            item = bookshelf.search(bookshelf.bookList, book)
+            if str(item) == selected:
+                return item
 
 class Borrow:
     def __init__(self, parent):
