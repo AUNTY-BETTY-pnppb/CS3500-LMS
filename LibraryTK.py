@@ -144,18 +144,7 @@ class Search:
             bookObj = self.searchList(book)
             #Borrow.borrow(bookObj)
             print(type(bookObj))
-            if bookObj._getAvailability():
-                # Next two lines set the due date to be seven days
-                # after the user borrows the book
-                now = datetime.now()
-                due_on = timedelta(days=+7)
-                due_date = now + due_on
-                demo_user.borrowlist[bookObj] = due_date.strftime("%d %b %Y")
-                bookObj._setAvailability(False)
-                demo_user.borrowList.insert(END,"%s" % book)
-            else:
-                demo_user.reservelist.append(bookObj)
-                demo_user.reserveList.insert(END,"%s" % book)
+            
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
