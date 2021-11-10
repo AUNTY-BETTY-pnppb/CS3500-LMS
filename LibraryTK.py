@@ -108,7 +108,7 @@ class Search:
             if match:
                 self._searchList.insert(index=index, item)
                 print(match.string)
-        
+
 
     def searchList(self):
         return
