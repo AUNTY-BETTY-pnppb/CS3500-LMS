@@ -74,17 +74,18 @@ class Profile:
 
 
     def myBooks(self):
+        self._dueList.delete(0, END)
         for book, date in demo_user.borrowlist.items():
             self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
+        self._reserveList.delete(0, END)
         for book in demo_user.reservelist:
             self._reserveList.insert(END, book)
 
     def refresh(self):
-        self._dueList.delete(0, END)
-        self._reserveList.delete(0, END)
-        return self.myBooks(), self.myReservedBooks()
+        self.myBooks()
+        self.myReservedBooks()
 
 
 
@@ -221,6 +222,7 @@ class Borrow:
         # so to call stuff in other classes must go - app.class._objectButton
         book._setAvailability(False)
         bookshelf.insert(bookshelf.bookList, str(bookID), book)
+        app.profile.myBooks()
 
 
     def reset(self):
@@ -236,6 +238,7 @@ class Borrow:
         demo_user.reservelist.append(book)
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
+        app.profile.myReservedBooks()
 
 
 class Donate:
