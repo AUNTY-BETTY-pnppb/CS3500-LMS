@@ -55,3 +55,4 @@ class User:
                 now = datetime.now()
                 due_date = timedelta(days=+7)
                 self.borrowlist[book] = now + due_date
+                book._setAvailability(False)
