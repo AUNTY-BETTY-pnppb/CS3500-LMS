@@ -45,6 +45,7 @@ class Profile:
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
         #Button
         self._refreshButton = tk.Button(self.frame, text="Refresh", command=self.refresh)
+        self._returnButton = tk.Button(self.frame, text="Return", command=self.returnBook)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
         self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername())
@@ -62,6 +63,7 @@ class Profile:
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
         self._refreshButton.grid(row=1, column=5, sticky='nw')
+        self._returnButton.grid(row=1, column=4, sticky='n')
 
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1)
@@ -75,8 +77,9 @@ class Profile:
 
     def myBooks(self):
         self._dueList.delete(0, END)
+        print(demo_user.borrowlist)
         for book, date in demo_user.borrowlist.items():
-            self._dueList.insert(END,"%s %s" % (book, date))
+            self._dueList.insert(END, book)
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
@@ -87,7 +90,20 @@ class Profile:
         self.myBooks()
         self.myReservedBooks()
 
-
+    def returnBook(self):
+        print(self._dueList)
+        print(demo_user.borrowlist)
+        bookToReturn = self._dueList.get(self._dueList.curselection())
+        book = app.search.searchList(bookToReturn)
+        bookshelf = Bookshelf()
+        print(book)
+        bookID = book._getBookId()
+        demo_user.borrowlist.pop(book)
+        # app is the MainTK where all other tk classes resolve
+        # so to call stuff in other classes must go - app.class._objectButton
+        book._setAvailability(True)
+        bookshelf.insert(bookshelf.bookList, str(bookID), book)
+        app.profile.myBooks()
 
 class Search:
     def __init__(self, parent):
