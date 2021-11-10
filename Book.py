@@ -11,7 +11,7 @@ class Book:
         self._bookid = id(self)
 
     def __str__(self):
-        return 'Title: %s  | Author: %s  | Genre: %s  Availablility: %s  ' % (self._name, self._author, self._genre, self.isAvailable())
+        return 'Title: %s  | Author: %s  | Genre: %s | Availablility: %s  ' % (self._name, self._author, self._genre, self.isAvailable())
 
     def _getBookId(self):
         return self._bookid
