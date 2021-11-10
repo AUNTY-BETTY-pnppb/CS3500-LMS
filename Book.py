@@ -2,12 +2,12 @@ from Bookshelf import *
 
 class Book:
 
-    def __init__(self, genre, name, author):
+    def __init__(self, genre, name, author, availability=True):
         # need to increment bookids automatically when creating books
         self._genre = genre
         self._name = name
         self._author = author
-        self._availability = True
+        self._availability = availability
         self._bookid = id(self)
 
     def __str__(self):
