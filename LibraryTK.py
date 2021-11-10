@@ -73,7 +73,7 @@ class Profile:
 
     def myBooks(self):
         for book, date in demo_user.borrowlist.items():
-            self._dueList.insert(END, book, date)
+            self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
         for book in demo_user.reservelist:
