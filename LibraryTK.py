@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 
 global demo_user
 demo_user = User('Chris', 'chris@gmail.com', '1234')
-demo_user.reservelist.append(Book('Genre', 'Name', 'ss'))
-demo_user.borrowlist[Book('Genre', 'Name', 'ss')] = datetime.now().strftime("%d %b %Y")
+demo_user.reservelist.append(Book('Genre', 'Name', 'ss', False))
+demo_user.borrowlist[Book('Genre', 'Name', 'ss', False)] = datetime.now().strftime("%d %b %Y")
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -217,7 +217,8 @@ class Borrow:
 
     def reset(self):
         # reset the book lists to nothing
-        return
+        self._borrowList.delete(0, END)
+        self._reserveList.delete(0, END)
 
 
 class Donate:
