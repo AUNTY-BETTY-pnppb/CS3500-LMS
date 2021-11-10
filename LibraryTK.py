@@ -207,6 +207,8 @@ class Borrow:
     def borrow(self):
         bookToBorrow = self._borrowList.get(self._borrowList.curselection())
         book = app.search.searchList(bookToBorrow)
+        bookshelf = Bookshelf()
+        bookID = book._getBookId()
         if book._getAvailability():
         # Next two lines set the due date to be seven days
         # after the user borrows the book
@@ -217,6 +219,7 @@ class Borrow:
             # app is the MainTK where all other tk classes resolve
             # so to call stuff in other classes must go - app.class._objectButton
             book._setAvailability(False)
+            bookshelf.insert(bookshelf.bookList, str(bookID), book)
         else:
             demo_user.reservelist.append(bookObj)
 
