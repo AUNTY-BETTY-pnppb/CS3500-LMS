@@ -53,6 +53,8 @@ class Profile:
         self._borrowedLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
         self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
 
+        self._responseLabel = tk.Label(self.frame, height=1, text="")
+
         # blanks are whitespaces for better readability
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)
@@ -63,15 +65,17 @@ class Profile:
     def positionWidgets(self):
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
-        self._refreshButton.grid(row=3, column=3, sticky='nw')
-        self._returnButton.grid(row=3, column=3, sticky='n')
-        self._cancelButton.grid(row=3, column=3, sticky='ne')
+        self._refreshButton.grid(row=4, column=3, sticky='nw')
+        self._returnButton.grid(row=4, column=3, sticky='n')
+        self._cancelButton.grid(row=4, column=3, sticky='ne')
 
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1)
 
         self._reservedLabel.grid(row=1, column=3)
         self._reserveList.grid(row=2, column=3, sticky='n')
+
+        self._responseLabel.grid(row=3, column=3, sticky='w', columnspan=3)
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=2, column=0)
@@ -110,6 +114,7 @@ class Profile:
                 book1._setAvailability(True)
                 bookshelf.insert(bookshelf.bookList, str(bookID), book1)
                 demo_user.borrowlist.pop(book1)
+                self._responseLabel.config(text="You returned %s" % book1.getName())
                 break
         #Update
         self.myBooks()
@@ -123,6 +128,7 @@ class Profile:
                 #print("match")
 
                 demo_user.reservelist.remove(book1)
+                self._responseLabel.config(text="You cancelled the reservation on %s" % book1.getName())
         #Update
         self.myReservedBooks()
 
@@ -244,6 +250,8 @@ class Borrow:
         self._borrowLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
         self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserving")
 
+        self._responseLabel = tk.Label(self.frame, height=1, text="")
+
         self._borrowList = tk.Listbox(self.frame, height=15, width=40)
         self._reserveList = tk.Listbox(self.frame, height=7, width=40)
 
@@ -265,6 +273,8 @@ class Borrow:
 
         self._reservedLabel.grid(row=1, column=3)
         self._reserveList.grid(row=2, column=3, columnspan=3, sticky='n')
+
+        self._responseLabel.grid(row=4, column=3, sticky='w', columnspan=3)
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=0, column=2)
@@ -292,6 +302,7 @@ class Borrow:
         book._setAvailability(False)
         bookshelf.insert(bookshelf.bookList, str(bookID), book)
         app.profile.myBooks()
+        self._responseLabel.config(text="You borrowed %s" % book.getName())
 
 
     def reset(self):
@@ -310,6 +321,7 @@ class Borrow:
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         app.profile.myReservedBooks()
+        self._responseLabel.config(text="You reserved %s" % book.getName())
 
 class Donate:
     def __init__(self, parent):
