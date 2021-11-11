@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 
 global demo_user
 demo_user = User('Chris', 'chris@gmail.com', '1234')
-demo_user.reservelist.append(Book('Genre', 'Name', 'ss', False))
-demo_user.borrowlist[Book('Genre', 'Name', 'ss', False)] = datetime.now().strftime("%d %b %Y")
+#demo_user.reservelist.append(Book('Genre', 'Name', 'ss', False))
+#demo_user.borrowlist[Book('Genre', 'Name', 'ss', False)] = datetime.now().strftime("%d %b %Y")
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -81,13 +81,19 @@ class Profile:
 
     def myBooks(self):
         self._dueList.delete(0, END)
-        for book, date in demo_user.borrowlist.items():
-            self._dueList.insert(END,"nothing for now")
+        if not demo_user.borrowlist:
+            self._dueList.insert(END, "No currently borrowed books")
+        else:
+            for book, date in demo_user.borrowlist.items():
+                self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
-        for book in demo_user.reservelist:
-            self._reserveList.insert(END, "NOthing for now")
+        if not demo_user.reservelist:
+            self._reserveList.insert(END, "No currently reserved books")
+        else:
+            for book in demo_user.reservelist:
+                self._reserveList.insert(END, "%s" % book)
 
     def refresh(self):
         self.myBooks()
@@ -182,7 +188,7 @@ class Search:
         # i get the last one because of "the" and "tonight" having "h"
         if userInput == "":
             self.listAll()
-            
+
         else:
             genre = self._genreVar.get()
             for book in bookshelf.getKeys(bookshelf.bookList):
@@ -195,7 +201,7 @@ class Search:
                 elif genre == item.getGenre():
                     if matchName or matchAuthor:
                         self._searchList.insert(END, item)
-    
+
     def listAll(self):
         genre = self._genreVar.get()
         print(genre)
@@ -391,7 +397,7 @@ class Donate:
 
     def donate(self):
         # put your donate here
-        
+
         genreDictionary = {1: "Action", 2: "Romance", 3: "Fantasy", 4: "Sci-fi", 5: "Drama", 6: "Horror"}
         print(self._titleBox.get(), self._authorBox.get(), genreDictionary[self._var.get()])
         donatedBook = Book(genreDictionary[self._var.get()], self._titleBox.get(), self._authorBox.get())
