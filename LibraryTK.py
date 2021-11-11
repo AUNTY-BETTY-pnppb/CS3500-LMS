@@ -83,7 +83,7 @@ class Profile:
             self._dueList.insert(END, "No currently borrowed books")
         else:
             for book, date in demo_user.borrowlist.items():
-                self._dueList.insert(END,"%s %s" % (book.getName(), date))
+                self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
@@ -91,7 +91,7 @@ class Profile:
             self._reserveList.insert(END, "No currently reserved books")
         else:
             for book in demo_user.reservelist:
-                self._reserveList.insert(END, "%s" % book.getName())
+                self._reserveList.insert(END, "%s" % book)
 
     def refresh(self):
         self.myBooks()
