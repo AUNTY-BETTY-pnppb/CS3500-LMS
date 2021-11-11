@@ -108,13 +108,16 @@ class Profile:
             # Check for match, book1 is an object hence the str.
             # Have to add 2 strings because the date was added
             # to the object that was borrowed
-            if (str(book1) + " " + str(date)) == bookToReturn:
+            book = bookshelf.search(bookshelf.bookList, str(book1[1]))
+            bookDetails = bookToReturn.split(", ")
+            bookID = bookDetails[1][:13]
+            if str(book1[1]) == bookID:
                 print("match")
-                bookID = book1._getBookId()
-                book1._setAvailability(True)
-                bookshelf.insert(bookshelf.bookList, str(bookID), book1)
+                bookID = book._getBookId()
+                book._setAvailability(True)
+                bookshelf.insert(bookshelf.bookList, str(bookID), book)
                 demo_user.borrowlist.pop(book1)
-                self._responseLabel.config(text="You returned %s" % book1.getName())
+                self._responseLabel.config(text="You returned %s" % book.getName())
                 break
         #Update
         self.myBooks()
@@ -296,7 +299,7 @@ class Borrow:
         now = datetime.now()
         due_on = timedelta(days=+7)
         due_date = now + due_on
-        demo_user.borrowlist[book] = due_date.strftime("%d %b %Y")
+        demo_user.borrowlist[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         book._setAvailability(False)
