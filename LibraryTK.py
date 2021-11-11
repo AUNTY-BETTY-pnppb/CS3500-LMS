@@ -298,6 +298,8 @@ class Borrow:
 
     def reserve(self):
         bookToReserve = self._reserveList.get(self._reserveList.curselection())
+        index = int(self._reserveList.curselection()[0])
+        self._reserveList.delete(index)
         book = app.search.searchList(bookToReserve)
         # Next two lines set the due date to be seven days
         # after the user borrows the book
