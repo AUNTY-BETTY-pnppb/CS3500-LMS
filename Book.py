@@ -11,12 +11,14 @@ class Book:
         self._bookid = id(self)
 
     def __str__(self):
-        return 'Title: %s  | Author: %s  | Genre: %s | Availablility: %s  ' % (self._name, self._author, self._genre, self.isAvailable())
+        # i have changed the strings around to make it look less chaotic
+        genreList =  {"Action": "Action    ", "Romance": "Romance", "Fantasy": "Fantasy   ", "Sci-fi": "Sci-fi       ", "Drama": "Drama    ", "Horror": "Horror    "}
+        return 'Available: %s       %s      %s, by %s' % (self.isAvailable(), genreList[self.getGenre()], self._name, self._author)
 
     def _getBookId(self):
         return self._bookid
 
-    def _getGenre(self):
+    def getGenre(self):
         return self._genre
 
     def getName(self):
@@ -27,9 +29,9 @@ class Book:
 
     def isAvailable(self):
         if self._availability:
-            return "Available"
+            return "O"
         else:
-            return "Unavailable"
+            return "X"
 
     def _getAvailability(self):
         return self._availability

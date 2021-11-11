@@ -80,12 +80,12 @@ class Profile:
     def myBooks(self):
         self._dueList.delete(0, END)
         for book, date in demo_user.borrowlist.items():
-            self._dueList.insert(END,"%s %s" % (book, date))
+            self._dueList.insert(END,"nothing for now")
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
         for book in demo_user.reservelist:
-            self._reserveList.insert(END, book)
+            self._reserveList.insert(END, "NOthing for now")
 
     def refresh(self):
         self.myBooks()
@@ -131,14 +131,15 @@ class Search:
         self._search = tk.Entry(self.frame, width=40)
         self._searchButton = tk.Button(self.frame, text="Search", command=self.searchEngine)
 
-        genreVar = tk.StringVar()
-        genreVar.set("All") # default value
+        self._genreVar = tk.StringVar()
+        self._genreVar.set("All") # default value
 
-        self._genreMenu = tk.OptionMenu(self.frame, genreVar, "All", "Action", "Romance", "Fantasy", "Sci-fi", "Drama", "Horror")
+        self._genreMenu = tk.OptionMenu(self.frame, self._genreVar, "All", "Action", "Romance", "Fantasy", "Sci-fi", "Drama", "Horror")
 
         # listboxes for input and entries
         self._searchList = tk.Listbox(self.frame, height=15, width=70)
         self._searchList.bind('<Double-1>', self.borrow)
+        self.listAll()
 
         # Blanks again
         self._blank = tk.Label(self.frame, height=1, width=5)
@@ -169,13 +170,38 @@ class Search:
         self._searchList.delete(0, END)
         userInput = self._search.get() # Getting the search data
         print(userInput)
+        # Yo dave i switched them around so that if the bar is empty
+        # it will return all books
+        # PROBLEM - the search will return wrong entries when i enter one letter
+        # if i enter "h" in the search i get:
+        # hardyhar
+        # hooligan
+        # can you feel the love tonight
+        # i get the last one because of "the" and "tonight" having "h"
+        if userInput == "":
+            self.listAll()
+            
+        else:
+            genre = self._genreVar.get()
+            for book in bookshelf.getKeys(bookshelf.bookList):
+                item = bookshelf.search(bookshelf.bookList, book)
+                matchName = re.search("%s" % userInput.lower(), item.getName().lower())
+                matchAuthor = re.search("%s" % userInput.lower(), item.getAuthor().lower())
+                if genre == "All":
+                    if matchName or matchAuthor:
+                        self._searchList.insert(END, item)
+                elif genre == item.getGenre():
+                    if matchName or matchAuthor:
+                        self._searchList.insert(END, item)
+    
+    def listAll(self):
+        genre = self._genreVar.get()
+        print(genre)
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
-            matchName = re.search("%s" % userInput.lower(), item.getName().lower())
-            matchAuthor = re.search("%s" % userInput.lower(), item.getAuthor().lower())
-            if matchName:
+            if genre == "All":
                 self._searchList.insert(END, item)
-            elif matchAuthor:
+            elif genre == item.getGenre():
                 self._searchList.insert(END, item)
 
     def borrow(self, event):
@@ -331,7 +357,8 @@ class Donate:
 
     def donate(self):
         # put your donate here
-        genreDictionary = {1: "Action", 2: "Romance", 3: "Fantasy", 4: "SciFi", 5: "Drama", 6: "Horror"}
+        
+        genreDictionary = {1: "Action", 2: "Romance", 3: "Fantasy", 4: "Sci-fi", 5: "Drama", 6: "Horror"}
         print(self._titleBox.get(), self._authorBox.get(), genreDictionary[self._var.get()])
         donatedBook = Book(genreDictionary[self._var.get()], self._titleBox.get(), self._authorBox.get())
         bookshelf = Bookshelf()
