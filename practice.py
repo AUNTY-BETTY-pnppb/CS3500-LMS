@@ -1,5 +1,5 @@
 from Bookshelf import *
-print("yo PRINT MOTHER FUCKER")
+print("yo PRINT")
 shelf = Bookshelf()
 shelf.delete(shelf.bookList)
 sh = shelf.getKeys(shelf.bookList)
