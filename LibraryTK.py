@@ -95,7 +95,7 @@ class Profile:
             self._reserveList.insert(END, "No currently reserved books")
         else:
             for book in demo_user.reserveList:
-                self._reserveList.insert(END, "%s" % book)
+                self._reserveList.insert(END, "%s %s" % (book[0], book[1]))
 
     def refresh(self):
         self.myBooks()
@@ -125,12 +125,15 @@ class Profile:
     def cancel(self):
         #find the highlighted book
         bookToCancel = self._reserveList.get(self._reserveList.curselection())
-        for book1 in demo_user.reserveList:
+        bookshelf = Bookshelf()
+        for book in demo_user.reserveList:
             # Check for match, book1 is an object hence the str
-            if str(book1) == bookToCancel:
-                #print("match")
-
-                demo_user.reserveList.remove(book1)
+            #print(book[1])
+            book1 = bookshelf.search(bookshelf.bookList, str(book[1]))
+            #print(book1)
+            if book[1] == book1._getBookId():
+                print("match")
+                demo_user.reserveList.remove(book)
                 self._responseLabel.config(text="You cancelled the reservation on %s" % book1.getName())
         #Update
         self.myReservedBooks()
@@ -184,7 +187,7 @@ class Search:
     def searchEngine(self):
         self._searchList.delete(0, END)
         userInput = self._search.get() # Getting the search data
-        print(userInput)
+        #print(userInput)
         # Yo dave i switched them around so that if the bar is empty
         # it will return all books
         # PROBLEM - the search will return wrong entries when i enter one letter
@@ -211,7 +214,7 @@ class Search:
 
     def listAll(self):
         genre = self._genreVar.get()
-        print(genre)
+        #print(genre)
         for book in bookshelf.getKeys(bookshelf.bookList):
             item = bookshelf.search(bookshelf.bookList, book)
             if genre == "All":
@@ -232,7 +235,7 @@ class Search:
             else:
                 app.borrow._reserveList.insert(END,"%s" % bookObj)
 
-            print(type(bookObj))
+            #print(type(bookObj))
 
     def searchList(self, selected):
         for book in bookshelf.getKeys(bookshelf.bookList):
@@ -286,7 +289,6 @@ class Borrow:
 
     def borrow(self):
         bookToBorrow = self._borrowList.get(self._borrowList.curselection())
-
         # deletes the entry from the borrow list
         index = int(self._borrowList.curselection()[0])
         self._borrowList.delete(index)
@@ -320,7 +322,7 @@ class Borrow:
         book = app.search.searchList(bookToReserve)
         # Next two lines set the due date to be seven days
         # after the user borrows the book
-        demo_user.reserveList.append(book)
+        demo_user.reserveList.append((book.getName(), book._getBookId()))
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         app.profile.myReservedBooks()
