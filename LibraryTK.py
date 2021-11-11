@@ -275,6 +275,11 @@ class Borrow:
 
     def borrow(self):
         bookToBorrow = self._borrowList.get(self._borrowList.curselection())
+
+        # deletes the entry from the borrow list
+        index = int(self._borrowList.curselection()[0])
+        self._borrowList.delete(index)
+
         book = app.search.searchList(bookToBorrow)
         bookshelf = Bookshelf()
         bookID = book._getBookId()
