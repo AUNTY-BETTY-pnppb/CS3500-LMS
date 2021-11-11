@@ -149,7 +149,7 @@ class Search:
         self._genreMenu = tk.OptionMenu(self.frame, self._genreVar, "All", "Action", "Romance", "Fantasy", "Sci-fi", "Drama", "Horror")
 
         # listboxes for input and entries
-        self._searchList = tk.Listbox(self.frame, height=15, width=70)
+        self._searchList = tk.Listbox(self.frame, height=15, width=80)
         self._searchList.bind('<Double-1>', self.borrow)
         self.listAll()
 
