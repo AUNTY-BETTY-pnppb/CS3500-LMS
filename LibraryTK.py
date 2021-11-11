@@ -23,6 +23,7 @@ class MainTK:
         self.profile = Profile(self._tab_bar)
         self.search = Search(self._tab_bar)
         self.borrow = Borrow(self._tab_bar)
+        self.returned = Return(self._tab_bar)
         self.donate = Donate(self._tab_bar)
         self.tabControl()
 
@@ -31,6 +32,7 @@ class MainTK:
         self._tab_bar.add(self.profile.frame, text='Profile')
         self._tab_bar.add(self.search.frame, text='Search')
         self._tab_bar.add(self.borrow.frame, text='Borrow')
+        self._tab_bar.add(self.returned.frame, text='Return')
         self._tab_bar.add(self.donate.frame, text='Donate')
         self._tab_bar.grid(column=0, row=0)
 
@@ -298,6 +300,38 @@ class Borrow:
         # so to call stuff in other classes must go - app.class._objectButton
         app.profile.myReservedBooks()
 
+class Return:
+    def __init__(self, parent):
+        # Create parent, frame
+        self._parent = parent
+        self.frame = tk.Frame(self._parent)
+
+        self._returnBooksLabel =  tk.Label(self.frame, height=1, width=30, text="Return Books")
+        self._borrowLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowing")
+        self._returnLabel =  tk.Label(self.frame, height=1, width=30, text="Returning")
+
+        self._borrowList = tk.Listbox(self.frame, height=7, width=40)
+        self._returnList = tk.Listbox(self.frame, height=7, width=40)
+
+        self._blank = tk.Label(self.frame, height=1, width=5)
+        self._blank1 = tk.Label(self.frame, height=1, width=5)
+        self._blank2 = tk.Label(self.frame, height=1, width=5)
+
+        self.positionWidgets()
+
+    def positionWidgets(self):
+        # postition all widgets in frame
+        self._borrowLabel.grid(row=1, column=1)
+        self._borrowList.grid(row=2, column=1, rowspan=5)
+
+        self._returnLabel.grid(row=1, column=3)
+        self._returnList.grid(row=2, column=3, sticky='n')
+
+        self._returnBooksLabel.grid(row=0, column=1, columnspan=3)
+
+        self._blank.grid(row=3, column=2)
+        self._blank1.grid(row=1, column=2)
+        self._blank2.grid(row=0, column=0)
 
 class Donate:
     def __init__(self, parent):
