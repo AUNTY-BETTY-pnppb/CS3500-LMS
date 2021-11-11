@@ -7,3 +7,6 @@ Methods mixed case and no capitalized 1st letter:
 Variables mixed case if it's more that one word:
     book = "..."
     bookAuthor = "Dave"
+
+Global variables should be all lowercase and have and underscore between words:
+    global wind_speed

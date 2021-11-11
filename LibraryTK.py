@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 
 global demo_user
 demo_user = User('Chris', 'chris@gmail.com', '1234')
-#demo_user.reservelist.append(Book('Genre', 'Name', 'ss', False))
-#demo_user.borrowlist[Book('Genre', 'Name', 'ss', False)] = datetime.now().strftime("%d %b %Y")
+#demo_user.reserveList.append(Book('Genre', 'Name', 'ss', False))
+#demo_user.borrowList[Book('Genre', 'Name', 'ss', False)] = datetime.now().strftime("%d %b %Y")
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -83,18 +83,18 @@ class Profile:
 
     def myBooks(self):
         self._dueList.delete(0, END)
-        if not demo_user.borrowlist:
+        if not demo_user.borrowList:
             self._dueList.insert(END, "No currently borrowed books")
         else:
-            for book, date in demo_user.borrowlist.items():
+            for book, date in demo_user.borrowList.items():
                 self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
-        if not demo_user.reservelist:
+        if not demo_user.reserveList:
             self._reserveList.insert(END, "No currently reserved books")
         else:
-            for book in demo_user.reservelist:
+            for book in demo_user.reserveList:
                 self._reserveList.insert(END, "%s" % book)
 
     def refresh(self):
@@ -104,7 +104,7 @@ class Profile:
     def returnBook(self):
         bookToReturn = self._dueList.get(self._dueList.curselection())
         bookshelf = Bookshelf()
-        for book1, date in demo_user.borrowlist.items():
+        for book1, date in demo_user.borrowList.items():
             # Check for match, book1 is an object hence the str.
             # Have to add 2 strings because the date was added
             # to the object that was borrowed
@@ -116,7 +116,7 @@ class Profile:
                 bookID = book._getBookId()
                 book._setAvailability(True)
                 bookshelf.insert(bookshelf.bookList, str(bookID), book)
-                demo_user.borrowlist.pop(book1)
+                demo_user.borrowList.pop(book1)
                 self._responseLabel.config(text="You returned %s" % book.getName())
                 break
         #Update
@@ -125,12 +125,12 @@ class Profile:
     def cancel(self):
         #find the highlighted book
         bookToCancel = self._reserveList.get(self._reserveList.curselection())
-        for book1 in demo_user.reservelist:
+        for book1 in demo_user.reserveList:
             # Check for match, book1 is an object hence the str
             if str(book1) == bookToCancel:
                 #print("match")
 
-                demo_user.reservelist.remove(book1)
+                demo_user.reserveList.remove(book1)
                 self._responseLabel.config(text="You cancelled the reservation on %s" % book1.getName())
         #Update
         self.myReservedBooks()
@@ -299,7 +299,7 @@ class Borrow:
         now = datetime.now()
         due_on = timedelta(days=+7)
         due_date = now + due_on
-        demo_user.borrowlist[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
+        demo_user.borrowList[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         book._setAvailability(False)
@@ -320,7 +320,7 @@ class Borrow:
         book = app.search.searchList(bookToReserve)
         # Next two lines set the due date to be seven days
         # after the user borrows the book
-        demo_user.reservelist.append(book)
+        demo_user.reserveList.append(book)
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         app.profile.myReservedBooks()
