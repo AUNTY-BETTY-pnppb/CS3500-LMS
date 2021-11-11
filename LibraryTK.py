@@ -118,6 +118,7 @@ class Profile:
                 bookshelf.insert(bookshelf.bookList, str(bookID), book)
                 demo_user.borrowList.pop(book1)
                 self._responseLabel.config(text="You returned %s" % book.getName())
+                app.search.searchEngine()
                 break
         #Update
         self.myBooks()
@@ -308,6 +309,7 @@ class Borrow:
         bookshelf.insert(bookshelf.bookList, str(bookID), book)
         app.profile.myBooks()
         self._responseLabel.config(text="You borrowed %s" % book.getName())
+        app.search.searchEngine()
 
 
     def reset(self):
