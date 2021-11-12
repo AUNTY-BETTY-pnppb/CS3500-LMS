@@ -75,7 +75,7 @@ class Profile:
         self._reservedLabel.grid(row=1, column=3)
         self._reserveList.grid(row=2, column=3, columnspan=3, sticky='n')
 
-        self._responseLabel.grid(row=3, column=3, sticky='w', columnspan=3)
+        self._responseLabel.grid(row=5, column=3, sticky='w', columnspan=3)
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=2, column=0)
