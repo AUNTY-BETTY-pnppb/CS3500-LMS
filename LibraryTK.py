@@ -46,10 +46,10 @@ class Profile:
         #Button
         self._refreshButton = tk.Button(self.frame, text="Refresh", command=self.refresh)
         self._returnButton = tk.Button(self.frame, text="Return Book", command=self.returnBook)
-        self._cancelButton = tk.Button(self.frame, text="Cancel reservation", command=self.cancel)
+        self._cancelButton = tk.Button(self.frame, text="Cancel Reservation", command=self.cancel)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
-        self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername())
+        self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername(), font=20)
         self._borrowedLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
         self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
 
@@ -66,14 +66,14 @@ class Profile:
         # postition all widgets in frame
         self._name.grid(row=0, column=0, columnspan=4)
         self._refreshButton.grid(row=4, column=3, sticky='nw')
-        self._returnButton.grid(row=4, column=3, sticky='n')
-        self._cancelButton.grid(row=4, column=3, sticky='ne')
+        self._returnButton.grid(row=3, column=3, sticky='nw')
+        self._cancelButton.grid(row=3, column=3, sticky='ne')
 
         self._borrowedLabel.grid(row=1, column=1)
-        self._dueList.grid(row=2, column=1)
+        self._dueList.grid(row=2, column=1, rowspan=4)
 
         self._reservedLabel.grid(row=1, column=3)
-        self._reserveList.grid(row=2, column=3, sticky='n')
+        self._reserveList.grid(row=2, column=3, columnspan=3, sticky='n')
 
         self._responseLabel.grid(row=3, column=3, sticky='w', columnspan=3)
 
