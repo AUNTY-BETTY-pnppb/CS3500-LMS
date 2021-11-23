@@ -3,6 +3,7 @@ from tkinter import READABLE, PhotoImage, ttk
 from tkinter.constants import END
 from Book import *
 from User import *
+from LibraryTK import *
 
 class AccessTK:
     # this class is for the tkinter stuff altogether
@@ -70,7 +71,10 @@ class Login:
         self._blank4.grid(row=2, column=4)
     
     def login(self):
-        pass
+        app.root.quit()
+        user = "Chris"
+        all = LibraryTK()
+        all.root.mainloop()
 
 class SignUp:
     def __init__(self, parent):
@@ -156,6 +160,3 @@ class Retrieve:
     
     def createAccount(self):
         pass
-
-app = AccessTK()
-app.root.mainloop()
