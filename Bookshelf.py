@@ -35,5 +35,3 @@ class Bookshelf:
         st.close()
 
 bookshelf = Bookshelf()
-for book in bookshelf.getKeys(bookshelf.bookList):
-    print(str(book))

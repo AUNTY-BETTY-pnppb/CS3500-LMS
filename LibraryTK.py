@@ -14,15 +14,16 @@ demo_user = User('Chris', 'chris@gmail.com', '1234')
 
 class MainTK:
     # this class is for the tkinter stuff altogether
-    def __init__(self):
+    def __init__(self, user):
+        self.user = user
         self.root = tk.Tk()
         self.root.title("Library Management System")
         self.style = ttk.Style(self.root)
         self.style.configure('lefttab.TNotebook', tabposition='wn')
         self._tab_bar = tk.ttk.Notebook(self.root, style='lefttab.TNotebook')
-        self.profile = Profile(self._tab_bar)
+        self.profile = Profile(self._tab_bar, user)
         self.search = Search(self._tab_bar)
-        self.borrow = Borrow(self._tab_bar)
+        self.borrow = Borrow(self._tab_bar, user)
         self.donate = Donate(self._tab_bar)
         self.tabControl()
 
@@ -35,10 +36,12 @@ class MainTK:
         self._tab_bar.grid(column=0, row=0)
 
 class Profile:
-    def __init__(self, parent):
+    def __init__(self, parent, user):
         # Create parent, frame
         self._parent = parent
         self.frame = tk.Frame(self._parent)
+
+        self.user = user
 
         # list of books borrowed
         self._dueList = tk.Listbox(self.frame, height=15, width=40)
@@ -49,7 +52,7 @@ class Profile:
         self._cancelButton = tk.Button(self.frame, text="Cancel Reservation", command=self.cancel)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
-        self._name = tk.Label(self.frame, width=30, text=demo_user._getUsername(), font=20)
+        self._name = tk.Label(self.frame, width=30, text=self.user._getUsername(), font=20)
         self._borrowedLabel =  tk.Label(self.frame, height=1, width=30, text="Borrowed Books")
         self._reservedLabel =  tk.Label(self.frame, height=1, width=30, text="Reserved Books")
 
@@ -83,18 +86,18 @@ class Profile:
 
     def myBooks(self):
         self._dueList.delete(0, END)
-        if not demo_user.borrowList:
+        if not self.user.borrowList:
             self._dueList.insert(END, "No currently borrowed books")
         else:
-            for book, date in demo_user.borrowList.items():
+            for book, date in self.user.borrowList.items():
                 self._dueList.insert(END,"%s %s" % (book, date))
 
     def myReservedBooks(self):
         self._reserveList.delete(0, END)
-        if not demo_user.reserveList:
+        if not self.user.reserveList:
             self._reserveList.insert(END, "No currently reserved books")
         else:
-            for book in demo_user.reserveList:
+            for book in self.user.reserveList:
                 self._reserveList.insert(END, "%s %s" % (book[0], book[1]))
 
     def refresh(self):
@@ -104,7 +107,7 @@ class Profile:
     def returnBook(self):
         bookToReturn = self._dueList.get(self._dueList.curselection())
         bookshelf = Bookshelf()
-        for book1, date in demo_user.borrowList.items():
+        for book1, date in self.user.borrowList.items():
             # Check for match, book1 is an object hence the str.
             # Have to add 2 strings because the date was added
             # to the object that was borrowed
@@ -116,7 +119,7 @@ class Profile:
                 bookID = book._getBookId()
                 book._setAvailability(True)
                 bookshelf.insert(bookshelf.bookList, str(bookID), book)
-                demo_user.borrowList.pop(book1)
+                self.user.borrowList.pop(book1)
                 self._responseLabel.config(text="You returned %s" % book.getName())
                 app.search.searchEngine()
                 break
@@ -127,14 +130,14 @@ class Profile:
         #find the highlighted book
         bookToCancel = self._reserveList.get(self._reserveList.curselection())
         bookshelf = Bookshelf()
-        for book in demo_user.reserveList:
+        for book in self.user.reserveList:
             # Check for match, book1 is an object hence the str
             #print(book[1])
             book1 = bookshelf.search(bookshelf.bookList, str(book[1]))
             #print(book1)
             if book[1] == book1._getBookId():
                 print("match")
-                demo_user.reserveList.remove(book)
+                self.user.reserveList.remove(book)
                 self._responseLabel.config(text="You cancelled the reservation on %s" % book1.getName())
         #Update
         self.myReservedBooks()
@@ -245,10 +248,12 @@ class Search:
                 return item
 
 class Borrow:
-    def __init__(self, parent):
+    def __init__(self, parent, user):
         # Create parent, frame
         self._parent = parent
         self.frame = tk.Frame(self._parent)
+
+        self.user = user
 
         self._borrowButton = tk.Button(self.frame, text="Borrow", command=self.borrow)
         self._reserveButton = tk.Button(self.frame, text="Reserve", command=self.reserve)
@@ -302,7 +307,7 @@ class Borrow:
         now = datetime.now()
         due_on = timedelta(days=+7)
         due_date = now + due_on
-        demo_user.borrowList[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
+        self.user.borrowList[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         book._setAvailability(False)
@@ -324,7 +329,7 @@ class Borrow:
         book = app.search.searchList(bookToReserve)
         # Next two lines set the due date to be seven days
         # after the user borrows the book
-        demo_user.reserveList.append((book.getName(), book._getBookId()))
+        self.user.reserveList.append((book.getName(), book._getBookId()))
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         app.profile.myReservedBooks()
@@ -472,7 +477,15 @@ class Login:
         self._blank4.grid(row=2, column=4)
     
     def login(self):
-        quitAccessTK()
+        if self._usernameBox.get() and self._passwordBox.get():
+            for member in bookshelf.getKeys(bookshelf.membersList):
+                if member == self._usernameBox.get():
+                    print(member)
+                    account = bookshelf.search(bookshelf.membersList, self._usernameBox.get())
+                    if account._getPassword() == self._passwordBox.get():
+                        quitAccessTK(account) 
+        else:
+            self._responseLabel.config(text="User invalid")
 
 class SignUp:
     def __init__(self, parent):
@@ -485,9 +498,11 @@ class SignUp:
 
         self._usernameBox = tk.Entry(self.frame, width=40)
         self._passwordBox = tk.Entry(self.frame, width=40)
+        self._emailBox = tk.Entry(self.frame, width=40)
 
-        self._usernameLabel = tk.Label(self.frame, height=1, width=10, text="Username")
-        self._passwordLabel = tk.Label(self.frame, height=1, width=10, text="Password")
+        self._usernameLabel = tk.Label(self.frame, height=1, width=10, text="Username :")
+        self._passwordLabel = tk.Label(self.frame, height=1, width=10, text="Password :")
+        self._emailLabel = tk.Label(self.frame, height=1, width=10, text="Email :")
 
         self._responseLabel = tk.Label(self.frame, height=1, text="")
 
@@ -496,13 +511,15 @@ class SignUp:
         self._blank2 = tk.Label(self.frame, height=1, width=5)
         self._blank3 = tk.Label(self.frame, height=1, width=5)
         self._blank4 = tk.Label(self.frame, height=1, width=5)
+        self._blank5 = tk.Label(self.frame, height=1, width=5)
+        self._blank6 = tk.Label(self.frame, height=1, width=5)
 
         self.positionWidgets()
 
 
     def positionWidgets(self):
         # position all widgets in frame
-        self._signUpButton.grid(row=8, column=4, sticky='w', padx=10)
+        self._signUpButton.grid(row=9, column=4, sticky='w', padx=10)
         self._title.grid(row=1, column=4)
 
         self._usernameLabel.grid(row=3, column=1, sticky='w')
@@ -511,16 +528,31 @@ class SignUp:
         self._passwordLabel.grid(row=5, column=1, sticky='w')
         self._passwordBox.grid(row=5, column=2, columnspan=5, sticky='w')
 
-        self._responseLabel.grid(row=9, column=1, sticky='w', columnspan=5)
+        self._emailLabel.grid(row=7, column=1, sticky='w')
+        self._emailBox.grid(row=7, column=2, columnspan=5, sticky='w')
+
+        self._responseLabel.grid(row=10, column=1, sticky='w', columnspan=9)
 
         self._blank.grid(row=0, column=1)
-        self._blank1.grid(row=7, column=1)
+        self._blank1.grid(row=6, column=1)
         self._blank2.grid(row=3, column=0)
         self._blank3.grid(row=4, column=7)
         self._blank4.grid(row=2, column=4)
+        self._blank5.grid(row=8, column=4)
+        self._blank6.grid(row=11, column=4)
     
     def createAccount(self):
-        quitAccessTK()
+        if self._usernameBox.get() and not bool(re.search(r'\d', self._usernameBox.get())):
+            if bool(re.search(r'\d', self._passwordBox.get())) and len(self._passwordBox.get()) > 8:
+                newAccount = User(self._usernameBox.get(), self._passwordBox.get(), self._emailBox.get())
+                bookshelf.insert(bookshelf.membersList, self._usernameBox.get(), newAccount)
+                print(newAccount)
+                quitAccessTK(newAccount) 
+            else:
+                self._responseLabel.config(text="Password must be 8 characters long and have a number")
+        else:
+            self._responseLabel.config(text="Username is invalid")
+
 
 class Retrieve:
     def __init__(self, parent):
@@ -559,21 +591,14 @@ class Retrieve:
     def retrievePassword(self):
         pass
 
-def quitAccessTK() :
+def quitAccessTK(user) :
     global app
-    app.root.destroy()
-    lib = MainTK()
-    lib.root.mainloop()
-
-if __name__ == "__main__":
-    bookshelf = Bookshelf()
-    # remember to close the shelves afterwards
-    #bookshelf.close(bookshelf.membersList)
-    bookshelf.delete(bookshelf.membersList)
-    #library = bookshelf.getKeys(bookshelf.bookList)
-    #for book in library:
-    #    print(bookshelf.search(bookshelf.bookList, book))
+    start.root.destroy()
+    app = MainTK(user)
+    app.root.mainloop()
 
 
-app = AccessTK()
-app.root.mainloop()
+bookshelf = Bookshelf()
+
+start = AccessTK()
+start.root.mainloop()

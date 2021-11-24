@@ -2,12 +2,12 @@ from Book import *
 
 class User:
 
-    def __init__(self, username, email, password):
+    def __init__(self, username, password, email):
         #will need a check to shelf to see if an existing user
         #or email exists when creating a new user
         self._username = username
-        self._email = email
         self._password = password
+        self._email = email
         self.borrowList = {}
         self.reserveList = []
 
