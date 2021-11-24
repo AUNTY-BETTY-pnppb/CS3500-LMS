@@ -7,10 +7,6 @@ import re
 from Bookshelf import *
 from datetime import datetime, timedelta
 global app
-global demo_user
-demo_user = User('Chris', 'chris@gmail.com', '1234')
-#demo_user.reserveList.append(Book('Genre', 'Name', 'ss', False))
-#demo_user.borrowList[Book('Genre', 'Name', 'ss', False)] = datetime.now().strftime("%d %b %Y")
 
 class MainTK:
     # this class is for the tkinter stuff altogether
@@ -327,9 +323,13 @@ class Borrow:
         index = int(self._reserveList.curselection()[0])
         self._reserveList.delete(index)
         book = app.search.searchList(bookToReserve)
+        for user in bookshelf.getKeys(bookshelf.membersList):
+            possibleUser = bookshelf.search(bookshelf.membersList, user)
+            if possibleUser._getUsername() == self.user._getUsername():
+                self.user.reserveList.append((book.getName(), book._getBookId()))
+                bookshelf.insert(bookshelf.membersList, possibleUser._getUsername(), self.user)
         # Next two lines set the due date to be seven days
         # after the user borrows the book
-        self.user.reserveList.append((book.getName(), book._getBookId()))
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
         app.profile.myReservedBooks()
@@ -475,7 +475,7 @@ class Login:
         self._blank2.grid(row=3, column=0)
         self._blank3.grid(row=4, column=7)
         self._blank4.grid(row=2, column=4)
-    
+
     def login(self):
         if self._usernameBox.get() and self._passwordBox.get():
             for member in bookshelf.getKeys(bookshelf.membersList):
@@ -483,7 +483,7 @@ class Login:
                     print(member)
                     account = bookshelf.search(bookshelf.membersList, self._usernameBox.get())
                     if account._getPassword() == self._passwordBox.get():
-                        quitAccessTK(account) 
+                        quitAccessTK(account)
         else:
             self._responseLabel.config(text="User invalid")
 
@@ -540,14 +540,14 @@ class SignUp:
         self._blank4.grid(row=2, column=4)
         self._blank5.grid(row=8, column=4)
         self._blank6.grid(row=11, column=4)
-    
+
     def createAccount(self):
         if self._usernameBox.get() and not bool(re.search(r'\d', self._usernameBox.get())):
             if bool(re.search(r'\d', self._passwordBox.get())) and len(self._passwordBox.get()) > 8:
                 newAccount = User(self._usernameBox.get(), self._passwordBox.get(), self._emailBox.get())
                 bookshelf.insert(bookshelf.membersList, self._usernameBox.get(), newAccount)
                 print(newAccount)
-                quitAccessTK(newAccount) 
+                quitAccessTK(newAccount)
             else:
                 self._responseLabel.config(text="Password must be 8 characters long and have a number")
         else:
@@ -587,9 +587,20 @@ class Retrieve:
 
         self._blank.grid(row=0, column=1)
         self._blank1.grid(row=0, column=0)
-    
+
     def retrievePassword(self):
-        pass
+        userEmail = self._usernameBox.get()
+        if userEmail == "":
+            self._responseLabel.config(text="We can't send you your password without your email address")
+
+        else:
+            for user in bookshelf.getKeys(bookshelf.membersList):
+                possibleUser = bookshelf.search(bookshelf.membersList, user)
+                if possibleUser._getEmail() == userEmail:
+                    self._responseLabel.config(text="Your password is %s" % possibleUser._getPassword())
+                    return
+            self._responseLabel.config(text="You are not a member of our Library. Please sign up to get started")
+
 
 def quitAccessTK(user) :
     global app
