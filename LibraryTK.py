@@ -453,7 +453,7 @@ class Login:
         self._loginButton = tk.Button(self.frame, text="Login", command=self.login)
 
         self._usernameBox = tk.Entry(self.frame, width=40)
-        self._passwordBox = tk.Entry(self.frame, width=40)
+        self._passwordBox = tk.Entry(self.frame, show='*', width=40)
 
         self._usernameLabel = tk.Label(self.frame, height=1, width=10, text="Username")
         self._passwordLabel = tk.Label(self.frame, height=1, width=10, text="Password")
@@ -509,7 +509,7 @@ class SignUp:
         self._signUpButton = tk.Button(self.frame, text="Sign Up", command=self.createAccount)
 
         self._usernameBox = tk.Entry(self.frame, width=40)
-        self._passwordBox = tk.Entry(self.frame, width=40)
+        self._passwordBox = tk.Entry(self.frame, show='*', width=40)
         self._emailBox = tk.Entry(self.frame, width=40)
 
         self._usernameLabel = tk.Label(self.frame, height=1, width=10, text="Username :")
