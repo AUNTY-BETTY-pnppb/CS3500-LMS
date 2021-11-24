@@ -116,6 +116,10 @@ class Profile:
                 book._setAvailability(True)
                 bookshelf.insert(bookshelf.bookList, str(bookID), book)
                 self.user.borrowList.pop(book1)
+                for user in bookshelf.getKeys(bookshelf.membersList):
+                    possibleUser = bookshelf.search(bookshelf.membersList, user)
+                    if possibleUser._getUsername() == self.user._getUsername():
+                        bookshelf.insert(bookshelf.membersList, possibleUser._getUsername(), self.user)
                 self._responseLabel.config(text="You returned %s" % book.getName())
                 app.search.searchEngine()
                 break
@@ -134,6 +138,10 @@ class Profile:
             if book[1] == book1._getBookId():
                 print("match")
                 self.user.reserveList.remove(book)
+                for user in bookshelf.getKeys(bookshelf.membersList):
+                    possibleUser = bookshelf.search(bookshelf.membersList, user)
+                    if possibleUser._getUsername() == self.user._getUsername():
+                        bookshelf.insert(bookshelf.membersList, possibleUser._getUsername(), self.user)
                 self._responseLabel.config(text="You cancelled the reservation on %s" % book1.getName())
         #Update
         self.myReservedBooks()
@@ -303,11 +311,15 @@ class Borrow:
         now = datetime.now()
         due_on = timedelta(days=+7)
         due_date = now + due_on
-        self.user.borrowList[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
         # app is the MainTK where all other tk classes resolve
         # so to call stuff in other classes must go - app.class._objectButton
-        book._setAvailability(False)
-        bookshelf.insert(bookshelf.bookList, str(bookID), book)
+        for user in bookshelf.getKeys(bookshelf.membersList):
+            possibleUser = bookshelf.search(bookshelf.membersList, user)
+            if possibleUser._getUsername() == self.user._getUsername():
+                self.user.borrowList[book.getName(), book._getBookId()] = due_date.strftime("%d %b %Y")
+                book._setAvailability(False)
+                bookshelf.insert(bookshelf.bookList, str(bookID), book)
+                bookshelf.insert(bookshelf.membersList, possibleUser._getUsername(), self.user)
         app.profile.myBooks()
         self._responseLabel.config(text="You borrowed %s" % book.getName())
         app.search.searchEngine()
