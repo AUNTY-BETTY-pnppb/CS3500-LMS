@@ -46,6 +46,7 @@ class Profile:
         self._refreshButton = tk.Button(self.frame, text="Refresh", command=self.refresh)
         self._returnButton = tk.Button(self.frame, text="Return Book", command=self.returnBook)
         self._cancelButton = tk.Button(self.frame, text="Cancel Reservation", command=self.cancel)
+        self._logoutButton = tk.Button(self.frame, text="Logout", command=self.logout)
         # These are labels and titles for profile
         # REMINDER param of name is user's name
         self._name = tk.Label(self.frame, width=30, text=self.user._getUsername(), font=20)
@@ -67,6 +68,7 @@ class Profile:
         self._refreshButton.grid(row=4, column=3, sticky='nw')
         self._returnButton.grid(row=3, column=3, sticky='nw')
         self._cancelButton.grid(row=3, column=3, sticky='ne')
+        self._logoutButton.grid(row=5, column=3, sticky='ne')
 
         self._borrowedLabel.grid(row=1, column=1)
         self._dueList.grid(row=2, column=1, rowspan=4)
@@ -146,6 +148,10 @@ class Profile:
         #Update
         self.myReservedBooks()
 
+    def logout(self):
+        app.root.destroy()
+        start = AccessTK()
+        start.root.mainloop()
 
 class Search:
     def __init__(self, parent):
@@ -579,7 +585,7 @@ class Retrieve:
 
         self._usernameLabel = tk.Label(self.frame, height=1, width=10, text="Email")
 
-        self._responseLabel = tk.Label(self.frame, height=1, text="We will send you an email to retrieve your password")
+        self._responseLabel = tk.Label(self.frame, height=1, text="Enter your email to retrieve your password")
 
         self._blank = tk.Label(self.frame, height=1, width=5)
         self._blank1 = tk.Label(self.frame, height=1, width=5)

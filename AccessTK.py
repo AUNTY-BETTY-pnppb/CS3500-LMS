@@ -71,10 +71,7 @@ class Login:
         self._blank4.grid(row=2, column=4)
     
     def login(self):
-        app.root.quit()
-        user = "Chris"
-        all = LibraryTK()
-        all.root.mainloop()
+        pass
 
 class SignUp:
     def __init__(self, parent):
