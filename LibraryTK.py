@@ -22,6 +22,7 @@ class MainTK:
         self.borrow = Borrow(self._tab_bar, user)
         self.donate = Donate(self._tab_bar)
         self.tabControl()
+        self.root.protocol("WM_DELETE_WINDOW", self.logout)
 
     # adding the tabs
     def tabControl(self):
@@ -30,6 +31,10 @@ class MainTK:
         self._tab_bar.add(self.borrow.frame, text='Borrow')
         self._tab_bar.add(self.donate.frame, text='Donate')
         self._tab_bar.grid(column=0, row=0)
+
+    def logout(self):
+        start.root.deiconify()
+        self.root.destroy()
 
 class Profile:
     def __init__(self, parent, user):
@@ -76,7 +81,7 @@ class Profile:
         self._reservedLabel.grid(row=1, column=3)
         self._reserveList.grid(row=2, column=3, columnspan=3, sticky='n')
 
-        self._responseLabel.grid(row=5, column=3, sticky='w', columnspan=3)
+        self._responseLabel.grid(row=6, column=3, sticky='w', columnspan=3)
 
         self._blank.grid(row=2, column=2)
         self._blank1.grid(row=2, column=0)
@@ -150,9 +155,8 @@ class Profile:
         self.myReservedBooks()
 
     def logout(self):
+        start.root.deiconify()
         app.root.destroy()
-        start = AccessTK()
-        start.root.mainloop()
 
 class Search:
     def __init__(self, parent):
@@ -623,7 +627,7 @@ class Retrieve:
 
 def quitAccessTK(user) :
     global app
-    start.root.destroy()
+    start.root.withdraw()
     app = MainTK(user)
     app.root.mainloop()
 
