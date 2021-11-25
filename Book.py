@@ -1,4 +1,5 @@
 from Bookshelf import *
+import random
 
 class Book:
 
@@ -8,7 +9,7 @@ class Book:
         self._name = name
         self._author = author
         self._availability = availability
-        self._bookid = id(self)
+        self._bookid = random.randint(1000000000000, 9999999999999)
 
     def __str__(self):
         # i have changed the strings around to make it look less chaotic

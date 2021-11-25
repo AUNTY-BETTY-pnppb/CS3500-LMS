@@ -111,9 +111,10 @@ class Profile:
             # to the object that was borrowed
             book = bookshelf.search(bookshelf.bookList, str(book1[1]))
             bookDetails = bookToReturn.split(", ")
+            print(bookDetails)
             bookID = bookDetails[1][:13]
-            if str(book1[1]) == bookID:
-                print("match")
+            if str(book1[1]) in bookID:
+                bookID.strip(")")
                 bookID = book._getBookId()
                 book._setAvailability(True)
                 bookshelf.insert(bookshelf.bookList, str(bookID), book)
@@ -217,8 +218,8 @@ class Search:
             genre = self._genreVar.get()
             for book in bookshelf.getKeys(bookshelf.bookList):
                 item = bookshelf.search(bookshelf.bookList, book)
-                matchName = re.search("%s" % userInput.lower(), item.getName().lower())
-                matchAuthor = re.search("%s" % userInput.lower(), item.getAuthor().lower())
+                matchName = re.search("^%s" % userInput.lower(), item.getName().lower())
+                matchAuthor = re.search("^%s" % userInput.lower(), item.getAuthor().lower())
                 if genre == "All":
                     if matchName or matchAuthor:
                         self._searchList.insert(END, item)
